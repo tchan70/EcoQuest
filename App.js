@@ -1,20 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import NavBar from './NavBar.js';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomePage from './HomePage.js';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+export default function App() {  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <NavigationContainer>
+      <Stack.Navigator  initialRoute={HomePage}>
+        <Stack.Screen
+        name="Home"
+        component={HomePage}
+        options= {{title: "EcoQuest"}}>
+        </Stack.Screen>
+      </Stack.Navigator>
+      <View style={styles.container}>
+      <NavBar/>
     </View>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    // ...StyleSheet.absoluteFill,
+      alignItems: 'center'
+  }
 });
+
+//{StyleSheet.absoluteFill}
