@@ -2,18 +2,25 @@ import { StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomePage from './HomePage.js';
-import User from './User.js';
-import LeaderBoard from './LeaderBoard.js';
+import LeaderBoardPage from './LeaderBoardPage.js';
 import Map from './Map.js';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import Header from './Header.js';
+import LoginStack from './LoginStack.js'
+import { useState } from 'react';
+import { UserProvider } from './contexts/User.js';
+import UserStack from './UserStack.js';
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {  
+
+export default function App() {
+  const [hasNotLoggedIn, setHasNotLoggedIn] = useState(false)
   return (
+    <UserProvider>
     <NavigationContainer>
       <Header style={{flex:1}}/>
+      {hasNotLoggedIn ? <LoginStack setHasNotLoggedIn={setHasNotLoggedIn}/> : (<>
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={{headerShown: false, tabBarOptions: {activeTintColor: 'green'}}}
@@ -31,18 +38,19 @@ export default function App() {
         </Tab.Screen>
         <Tab.Screen
           name="User"
-          component={User}
+          component={UserStack}
           options= {{
             tabBarIcon: ({focused}) => {
               return (
                   <FontAwesome name="user" size={24} color={focused ? 'green' : 'black'} />
               )
             }
-          }}>
+          }}
+          >
         </Tab.Screen>
         <Tab.Screen
           name="LeaderBoard"
-          component={LeaderBoard}
+          component={LeaderBoardPage}
           options= {{
             tabBarIcon: ({focused}) => {
               return (
@@ -63,7 +71,10 @@ export default function App() {
           }}>
         </Tab.Screen>
       </Tab.Navigator>
+      </>)
+    }
     </NavigationContainer>
+  </UserProvider>
   );
 }
 
