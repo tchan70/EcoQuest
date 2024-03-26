@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         width: 360,
         height: 300,
-            backgroundColor: 'lightblue',
+        backgroundColor: 'lightblue',
         alignItems: 'center',
         justifyContent: "center",
         marginTop: '20%',
