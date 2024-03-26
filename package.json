@@ -20,7 +20,7 @@
     "react-native": "^0.73.6",
     "react-native-maps": "^1.11.3",
     "react-native-safe-area-context": "4.8.2",
-    "react-native-screens": "~3.29.0"
+    "react-native-screens": "~3.29.0",
     "firebase": "^10.9.0",
     "react-native-web": "~0.19.6"
   },
