@@ -14,6 +14,8 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
     const [hasNotLoggedIn, setHasNotLoggedIn] = useState(false);
+    // set to false in order to go to the main tabs
+    // set to false in order to signUp or LogIn
 
     return (
         <UserProvider>
