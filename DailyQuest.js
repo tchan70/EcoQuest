@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, AsyncStorage } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function DailyQuest() {
     const [quest, setQuest] = useState('')
