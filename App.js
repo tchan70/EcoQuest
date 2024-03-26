@@ -19,24 +19,24 @@ const Tab = createBottomTabNavigator();
 
 
 export default function App() {
-  const [data, setData] = useState(0)
-  const [user, setUser] = useState('bugslayer123')
-  const [hasNotLoggedIn, setHasNotLoggedIn] = useState(true)
+  // const [data, setData] = useState(0)
+  // const [user, setUser] = useState('bugslayer123')
+  const [hasNotLoggedIn, setHasNotLoggedIn] = useState(false)
   
-    useEffect(() => {
-    getPoints(user, setData)
-  }, [])
+  //   useEffect(() => {
+  //   getPoints(user, setData)
+  // }, [])
   
   return (
     <UserProvider>
     <NavigationContainer>
       <Header style={{flex:1}}/>
-//       <View style=styles.container>
-//         <Text>Open up App.js to start working on your app!</Text>
-//       <StatusBar style="auto" />
-//       <Button title="fetch Data" onPress={() => { updatePoints('bugslayer123', 300) }} />
-//       <Text>{data}</Text>
-//       </View>
+      {/* <View style={styles.container}>
+         <Text>Open up App.js to start working on your app!</Text>
+       <StatusBar style="auto" />
+       <Button title="fetch Data" onPress={() => { updatePoints('bugslayer123', 300) }} />
+       <Text>{data}</Text>
+       </View> */}
       {hasNotLoggedIn ? <LoginStack setHasNotLoggedIn={setHasNotLoggedIn}/> : (<>
       <Tab.Navigator
         initialRouteName="Home"
