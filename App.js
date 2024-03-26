@@ -1,13 +1,17 @@
-import { StyleSheet} from 'react-native';
+import { StyleSheet, Text, View, Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StatusBar } from 'expo-status-bar';
+import { updatePoints, getPoints } from './src/db-test'
+import { db } from './firebaseConfig';
+import { ref, onValue, set } from 'firebase/database'
 import HomePage from './HomePage.js';
 import LeaderBoardPage from './LeaderBoardPage.js';
 import Map from './Map.js';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import Header from './Header.js';
 import LoginStack from './LoginStack.js'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UserProvider } from './contexts/User.js';
 import UserStack from './UserStack.js';
 
@@ -15,11 +19,24 @@ const Tab = createBottomTabNavigator();
 
 
 export default function App() {
-  const [hasNotLoggedIn, setHasNotLoggedIn] = useState(false)
+  const [data, setData] = useState(0)
+  const [user, setUser] = useState('bugslayer123')
+  const [hasNotLoggedIn, setHasNotLoggedIn] = useState(true)
+  
+    useEffect(() => {
+    getPoints(user, setData)
+  }, [])
+  
   return (
     <UserProvider>
     <NavigationContainer>
       <Header style={{flex:1}}/>
+//       <View style=styles.container>
+//         <Text>Open up App.js to start working on your app!</Text>
+//       <StatusBar style="auto" />
+//       <Button title="fetch Data" onPress={() => { updatePoints('bugslayer123', 300) }} />
+//       <Text>{data}</Text>
+//       </View>
       {hasNotLoggedIn ? <LoginStack setHasNotLoggedIn={setHasNotLoggedIn}/> : (<>
       <Tab.Navigator
         initialRouteName="Home"
