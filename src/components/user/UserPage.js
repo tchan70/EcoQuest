@@ -1,16 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
 import UserDetails from "./UserDetails";
-import EditUserButton from "./EditUserButton";
+import EditUserButton from "./edit-user/EditUserButton";
 import { useContext } from "react";
-import { UserContext } from "./contexts/User";
+import { UserContext } from "../../../contexts/User";
 
-export default function User({ navigation: {replace} }) {
+export default function User({ navigation: { replace } }) {
     const { user } = useContext(UserContext);
     return (
         <View style={styles.view}>
             <Text>User Page!!</Text>
-            <UserDetails user={user}/>
-            <EditUserButton replace={replace}/>
+            <UserDetails user={user} />
+            <EditUserButton replace={replace} />
         </View>
     );
 }
