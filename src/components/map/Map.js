@@ -4,10 +4,9 @@ import MapView, { PROVIDER_GOOGLE, Heatmap } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useFocusEffect } from '@react-navigation/native';
 
-export default function Map() {
+export default function Map({location, setLocation}) {
 
 const [hasLocationPermission, setHasLocationPermission] = useState(false);
-// const [location, setLocation] = useState(null);
 
 const data = [
   {
@@ -33,9 +32,9 @@ const data = [
         return;
       } else {
         console.log('Permission to access location authorized')
-        //  location = await Location.getCurrentPositionAsync({});
+         currentLocation = await Location.getCurrentPositionAsync({});
       setHasLocationPermission(true);
-      // setLocation(location);
+      // setLocation({latitude: currentLocation.coords.latitude, longitude: currentLocation.coords.longitude});
     }
     })();
   });
