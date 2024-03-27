@@ -1,45 +1,67 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import LoginForm from "./LoginForm";
-import { useContext } from "react";
+import { StyleSheet, Text, TextInput, Button, View } from "react-native";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../../../contexts/User";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { FIREBASE_AUTH } from "../../../../firebaseConfig";
+
 
 export default function LoginPage() {
-    const { user, setUser } = useContext(UserContext);
-    function handleLoginSubmit() {
-        setUser("username logged in");
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const auth = FIREBASE_AUTH;
+    const { setUser } = useContext(UserContext);
+
+    function handleLogin() {
+        signInWithEmailAndPassword(auth, email, password)
+        .catch(err => alert('Could not login! ' + err.message))
     }
 
+    useEffect(() => {
+        onAuthStateChanged(auth,  (user) => {
+            setUser(user)
+        })
+    }, [])
+
     return (
-        <View style={styles.view}>
-            <Text>Login Page!!</Text>
-            <LoginForm />
-            <TouchableOpacity
-                onPress={handleLoginSubmit}
-                style={styles.submitButton}
-            >
-                <Text style={styles.text}>SUBMIT</Text>
-            </TouchableOpacity>
+        <View
+            style={styles.view}>
+                <Text style={styles.text}>LOGIN FORM</Text>
+                <TextInput
+                    style={styles.input}
+                    value={email}
+                    onChangeText={(text) => setEmail(text)}
+                    placeholder="Email"
+                    autoCapitalize="none"
+                />
+                <TextInput
+                    style={styles.input}
+                    value={password}
+                    onChangeText={(text) => setPassword(text)}
+                    placeholder="Password"
+                    autoCapitalize="none"
+                    secureTextEntry
+                />
+                <Button title="Login" onPress={handleLogin}/>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     view: {
-        alignItems: "center",
-    },
-    submitButton: {
-        borderWidth: 5,
-        borderRadius: 15,
-        width: 200,
-        height: 100,
-        backgroundColor: "gold",
-        alignItems: "center",
+        width: 360,
+        height: 300,
+        alignSelf: 'center',
+        alignItems: 'center',
         justifyContent: "center",
-        marginTop: "10%",
     },
-    text: {
-        color: "white",
-        fontWeight: "bold",
-        fontSize: 20,
-    },
+    input: {
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 10,
+        width: "100%",
+        padding: 10,
+        margin: 10
+    }
 });
