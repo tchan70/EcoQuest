@@ -1,21 +1,21 @@
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, View, ScrollView } from "react-native"
 import { db } from "../../../firebaseConfig";
 import { ref, query, orderByValue, onValue, orderByChild, orderByKey, limitToFirst, limitToLast } from "firebase/database";
 import { useEffect, useState } from "react";
 
 
 export default function LeaderBoardTable() {
-    const [topUsersList, setTopUserList] = useState("")
+    const [topUsersList, setTopUserList] = useState([])
 
     // const topUsers = ref(db, 'users')
-    const queriedUsers = query(ref(db, 'users'), orderByChild('points'))
+    const queriedUsers = query(ref(db, 'users'), orderByChild('points'), limitToLast(10))
     useEffect(() => {
         onValue(queriedUsers, (snapshot) => {
             const orderedUsers = [];
             snapshot.forEach((child) => {
                 console.log(child.key)
                 console.log(child.val())
-                orderedUsers.push({ username: child.key, ...child.val() })
+                orderedUsers.unshift({ username: child.key, ...child.val() })
             })
             // const data = snapshot.val()
             setTopUserList(orderedUsers)
@@ -24,10 +24,18 @@ export default function LeaderBoardTable() {
 
     console.log(topUsersList);
 
-    return <View style={styles.view}>
-        <Text style={styles.text}>LEADERBOARD TABLE</Text>
-        <Text style={styles.text}>{JSON.stringify(topUsersList)}</Text>
-    </View>
+    return (
+        <ScrollView contentContainerStyle={styles.scrollview}>
+            <Text>LEADERBOARD TABLE</Text>
+            {topUsersList.map((item, index) => {
+                return (<View style={styles.leaderboardItem} key={item.username}>
+                    <Text style={styles.ranking}>{index + 1}</Text>
+                    <Text style={styles.text}>{item.username}</Text>
+                    <Text style={styles.text}>{item.points}</Text>
+                </View>)
+            })}
+        </ScrollView>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -42,8 +50,31 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     text: {
-        color: "white",
+        color: "black",
         fontWeight: 'bold',
         fontSize: 20,
+        width: "20%",
+        marginBottom: 30
     },
+    ranking: {
+        color: "black",
+        fontWeight: 'bold',
+        fontSize: 20,
+        width: "30%",
+        marginBottom: 30,
+        alignItems: "flex-start",
+        backgroundColor: 'pink'
+    },
+    scrollview: {
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
+        height: 200
+    },
+    leaderboardItem: {
+        flex: 1,
+        flexWrap: "wrap"
+        
+    }
+
 });
