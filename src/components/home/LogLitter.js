@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-export default function LogLitter() {
+export default function LogLitter({location}) {
+  
     return (
-        <View style={styles.view}>
-            <Text style={styles.text}>LOG LITTER BUTTON</Text>
-        </View>
-    );
+        <TouchableOpacity onPress={()=>{console.log("logged litter at", location)}} style={styles.button}>
+            <Text style={styles.text}>LOG LITTER</Text>
+        </TouchableOpacity>);
 }
 
 const styles = StyleSheet.create({
-    view: {
+    button: {
         borderWidth: 5,
         borderRadius: 38,
         width: 170,
