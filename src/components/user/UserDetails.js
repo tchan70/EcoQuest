@@ -1,10 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
 import UserPhoto from "./UserPhoto";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/User";
 
-export default function UserDetails({user}) {
+export default function UserDetails() {
+
+    const { user } = useContext(UserContext);
+    
     return (
         <View style={styles.view}>
-            <Text style={styles.text}>{user}</Text>
+            <Text style={styles.text}>{user.email}</Text>
             <UserPhoto />
             <Text style={styles.points}>USER POINTS</Text>
         </View>
