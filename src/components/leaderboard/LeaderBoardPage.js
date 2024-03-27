@@ -5,7 +5,7 @@ export default function LeaderBoard() {
     
     return (
         <View style={styles.view}>
-            <Text>Leaderboard Page!!</Text>
+            <Text>Leaderboard</Text>
             <LeaderBoardTable/>
         </View>
     )
