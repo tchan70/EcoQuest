@@ -7,16 +7,21 @@ import { useEffect, useState } from "react";
 export default function LeaderBoardTable() {
     const [topUsersList, setTopUserList] = useState("")
 
-    const topUsers = ref(db, 'users')
-    const queriedUsers = query(ref(db, 'users'), orderByChild('points'), limitToLast(5))
-    useEffect(()=>{
-        onValue(queriedUsers, (snapshot)=>{
-        const data = snapshot.val()
-        setTopUserList(data)
-        
-    })
-    },[])
-    
+    // const topUsers = ref(db, 'users')
+    const queriedUsers = query(ref(db, 'users'), orderByChild('points'))
+    useEffect(() => {
+        onValue(queriedUsers, (snapshot) => {
+            const orderedUsers = [];
+            snapshot.forEach((child) => {
+                console.log(child.key)
+                console.log(child.val())
+                orderedUsers.push({ username: child.key, ...child.val() })
+            })
+            // const data = snapshot.val()
+            setTopUserList(orderedUsers)
+        })
+    }, [])
+
     console.log(topUsersList);
 
     return <View style={styles.view}>
