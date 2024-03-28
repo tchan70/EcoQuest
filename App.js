@@ -7,10 +7,9 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import Header from "./src/components/Header.js";
 import LoginStack from "./src/components/login-signup/login/LoginStack.js";
 import { useState } from "react";
-import { UserContext } from "./contexts/User.js";
-import UserStack from "./src/components/user/UserStack.js";
 import Map from "./src/components/map/Map.js";
-
+import UserPage from "./src/components/user/UserPage.js";
+import { UserContext, UserProvider } from "./contexts/User.js";
 
 const Tab = createBottomTabNavigator();
 
@@ -52,7 +51,7 @@ export default function App() {
                             ></Tab.Screen>
                             <Tab.Screen
                                 name="User"
-                                component={UserStack}
+                                component={UserPage}
                                 options={{
                                     tabBarIcon: ({ focused }) => {
                                         return (
