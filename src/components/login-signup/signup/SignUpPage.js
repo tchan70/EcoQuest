@@ -25,6 +25,10 @@ export default function SignUpPage({navigation: {replace}}) {
         }
     }
 
+    function handleGoBack() {
+        replace("LogInOrSignInPage")
+    }
+
     return (
         <View
             style={styles.view}>
@@ -52,7 +56,10 @@ export default function SignUpPage({navigation: {replace}}) {
                     autoCapitalize="none"
                     secureTextEntry
                 />
-            <Button title="Register" onPress={handleSignUp}/>
+                <View style={styles.buttons}>
+                    <Button title="Register" onPress={handleSignUp}/>
+                    <Button color={'grey'} title="Go Back" onPress={handleGoBack}/>
+                </View>
         </View>
     )
 }
@@ -75,5 +82,9 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 10,
         margin: 10
+    },
+    buttons: {
+        flexDirection: "row",
+        gap: 15
     }
 });

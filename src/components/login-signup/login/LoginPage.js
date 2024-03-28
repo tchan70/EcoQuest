@@ -5,7 +5,7 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../../../firebaseConfig";
 
 
-export default function LoginPage() {
+export default function LoginPage({ navigation: { replace } }) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -15,6 +15,10 @@ export default function LoginPage() {
     function handleLogin() {
         signInWithEmailAndPassword(auth, email, password)
         .catch(err => alert('Could not login! ' + err.message))
+    }
+
+    function handleGoBack() {
+        replace("LogInOrSignInPage")
     }
 
     useEffect(() => {
@@ -42,7 +46,10 @@ export default function LoginPage() {
                     autoCapitalize="none"
                     secureTextEntry
                 />
-                <Button title="Login" onPress={handleLogin}/>
+                <View style={styles.buttons}>
+                    <Button title="Login" onPress={handleLogin}/>
+                    <Button color={'grey'} title="Go Back" onPress={handleGoBack}/>
+                </View>
         </View>
     );
 }
@@ -63,5 +70,9 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 10,
         margin: 10
+    },
+    buttons: {
+        flexDirection: "row",
+        gap: 15
     }
 });
