@@ -9,13 +9,13 @@ import LoginStack from "./src/components/login-signup/login/LoginStack.js";
 import { useState } from "react";
 import Map from "./src/components/map/Map.js";
 import UserPage from "./src/components/user/UserPage.js";
-import { UserContext, UserProvider } from "./contexts/User.js";
+import { UserContext } from "./contexts/User.js";
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-
-    const [user, setUser] = useState(null)
+    const [hasLocationPermission, setHasLocationPermission] = useState(false);
+    const [user, setUser] = useState({emailVerified: true, username: "Mantequilla", points: 43 })
 
     return (
         <UserContext.Provider value={{ user, setUser }}>
@@ -34,7 +34,7 @@ export default function App() {
                         >
                             <Tab.Screen
                                 name="Home"
-                                component={HomePage}
+                                children={() => <HomePage hasLocationPermission={hasLocationPermission} setHasLocationPermission={setHasLocationPermission}/>}
                                 options={{
                                     tabBarIcon: ({ focused }) => {
                                         return (
@@ -85,7 +85,7 @@ export default function App() {
                             ></Tab.Screen>
                             <Tab.Screen
                                 name="Map"
-                                component={Map}
+                                children={()=><Map hasLocationPermission={hasLocationPermission} setHasLocationPermission={setHasLocationPermission}/>}
                                 options={{
                                     tabBarIcon: ({ focused }) => {
                                         return (
