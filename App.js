@@ -7,22 +7,22 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import Header from "./src/components/Header.js";
 import LoginStack from "./src/components/login-signup/login/LoginStack.js";
 import { useState } from "react";
-import { UserProvider } from "./contexts/User.js";
 import Map from "./src/components/map/Map.js";
 import UserPage from "./src/components/user/UserPage.js";
+import { UserContext, UserProvider } from "./contexts/User.js";
+
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-    const [hasNotLoggedIn, setHasNotLoggedIn] = useState(false);
-    // set to false in order to go to the main tabs
-    // set to false in order to signUp or LogIn
+
+    const [user, setUser] = useState(null)
 
     return (
-        <UserProvider>
+        <UserContext.Provider value={{ user, setUser }}>
             <NavigationContainer>
                 <Header style={{ flex: 1 }} />
-                {hasNotLoggedIn ? (
-                    <LoginStack setHasNotLoggedIn={setHasNotLoggedIn} />
+                {user === null || user.emailVerified === false ? (
+                    <LoginStack />
                 ) : (
                     <>
                         <Tab.Navigator
@@ -104,7 +104,7 @@ export default function App() {
                     </>
                 )}
             </NavigationContainer>
-        </UserProvider>
+        </UserContext.Provider>
     );
 }
 

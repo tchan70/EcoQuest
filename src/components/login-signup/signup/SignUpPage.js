@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { FIREBASE_AUTH } from "../../../../firebaseConfig";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 
 export default function SignUpPage({navigation: {replace}}) {
@@ -16,8 +16,8 @@ export default function SignUpPage({navigation: {replace}}) {
             createUserWithEmailAndPassword(auth, email, password)
             .then((userCredentials) => {
                 sendEmailVerification(userCredentials.user)
-                replace('LoginPage')
-                alert("Please check your inbox")
+                alert("Please check your inbox to verify your account! Once you verify it, reload app")
+                    replace('LogInOrSignInPage')
             })
             .catch(err => alert('Could not sign up! ' + err.message))
         } else {

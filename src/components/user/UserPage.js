@@ -1,12 +1,17 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, Text, View, Modal, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Modal, TouchableOpacity, Button } from "react-native";
 import UserDetails from "./UserDetails";
 import EditUserForm from "./edit-user/EditUserForm.js";
 import { UserContext } from "../../../contexts/User";
+import { FIREBASE_AUTH } from "../../../firebaseConfig";
 
 export default function UserPage() {
   const { user } = useContext(UserContext);
   const [editUserModalVisible, setEditUserModalVisible] = useState(false);
+  
+  function handleLogOut() {
+     FIREBASE_AUTH.signOut()
+  }
 
   return (
     <View style={styles.view}>
@@ -18,6 +23,7 @@ export default function UserPage() {
       >
         <Text style={styles.text}>Edit User</Text>
       </TouchableOpacity>
+      <Button title="LogOut" onPress={handleLogOut}/>
       <Modal
         animationType="slide"
         transparent={true}
