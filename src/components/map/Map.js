@@ -4,9 +4,7 @@ import MapView, { PROVIDER_GOOGLE, Heatmap } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useFocusEffect } from '@react-navigation/native';
 
-export default function Map({location, setLocation}) {
-
-const [hasLocationPermission, setHasLocationPermission] = useState(false);
+export default function Map({location, setLocation, hasLocationPermission,setHasLocationPermission}) {
 
 const data = [
   {

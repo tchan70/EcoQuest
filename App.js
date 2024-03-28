@@ -14,9 +14,9 @@ import { UserContext, UserProvider } from "./contexts/User.js";
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-    const [hasNotLoggedIn, setHasNotLoggedIn] = useState(false);
+    const [hasLocationPermission, setHasLocationPermission] = useState(false);
     const [location, setLocation] = useState({latitude: 0, longitude: 0})
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState({emailVerified: true, username: "Mantequilla", points: 43 })
     // set to false in order to go to the main tabs
     // set to false in order to signUp or LogIn
 
@@ -37,7 +37,7 @@ export default function App() {
                         >
                             <Tab.Screen
                                 name="Home"
-                                children={() => <HomePage location={location} setLocation={setLocation}/>}
+                                children={() => <HomePage location={location} setLocation={setLocation} hasLocationPermission={hasLocationPermission} setHasLocationPermission={setHasLocationPermission}/>}
                                 options={{
                                     tabBarIcon: ({ focused }) => {
                                         return (
@@ -88,7 +88,7 @@ export default function App() {
                             ></Tab.Screen>
                             <Tab.Screen
                                 name="Map"
-                                children={()=><Map location={location} setLocation={setLocation}/>}
+                                children={()=><Map location={location} setLocation={setLocation} hasLocationPermission={hasLocationPermission} setHasLocationPermission={setHasLocationPermission}/>}
                                 options={{
                                     tabBarIcon: ({ focused }) => {
                                         return (

@@ -5,8 +5,7 @@ import * as Location from 'expo-location';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from "react";
 
-export default function HomePage({location, setLocation}) {
-    const [hasLocationPermission, setHasLocationPermission] = useState(false);
+export default function HomePage({location, setLocation, hasLocationPermission,setHasLocationPermission}) {
     
     useFocusEffect(
         React.useCallback(()=>{
@@ -31,7 +30,7 @@ export default function HomePage({location, setLocation}) {
         <View style={styles.view}>
             <Text>Home Page!!</Text>
             <DailyQuest style={styles.daily_quest} />
-            <LogLitter style={styles.log_litter} location={location}/>
+            <LogLitter style={styles.log_litter} location={location} hasLocationPermission={hasLocationPermission}/>
         </View>
     );
 }
