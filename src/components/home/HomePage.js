@@ -3,9 +3,9 @@ import LogLitter from "./LogLitter";
 import DailyQuest from "./DailyQuest";
 import * as Location from 'expo-location';
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useState } from "react";
+import React from "react";
 
-export default function HomePage({location, setLocation, hasLocationPermission,setHasLocationPermission}) {
+export default function HomePage({hasLocationPermission,setHasLocationPermission}) {
     
     useFocusEffect(
         React.useCallback(()=>{
@@ -17,9 +17,7 @@ export default function HomePage({location, setLocation, hasLocationPermission,s
             return;
           } else {
             console.log('Permission to access location authorized')
-             currentLocation = await Location.getCurrentPositionAsync({});
           setHasLocationPermission(true);
-          setLocation({latitude: currentLocation.coords.latitude, longitude: currentLocation.coords.longitude});
         }
         })();
     },[])
@@ -30,7 +28,7 @@ export default function HomePage({location, setLocation, hasLocationPermission,s
         <View style={styles.view}>
             <Text>Home Page!!</Text>
             <DailyQuest style={styles.daily_quest} />
-            <LogLitter style={styles.log_litter} location={location} hasLocationPermission={hasLocationPermission}/>
+            <LogLitter style={styles.log_litter} hasLocationPermission={hasLocationPermission}/>
         </View>
     );
 }

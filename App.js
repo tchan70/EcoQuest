@@ -9,16 +9,13 @@ import LoginStack from "./src/components/login-signup/login/LoginStack.js";
 import { useState } from "react";
 import Map from "./src/components/map/Map.js";
 import UserPage from "./src/components/user/UserPage.js";
-import { UserContext, UserProvider } from "./contexts/User.js";
+import { UserContext } from "./contexts/User.js";
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
     const [hasLocationPermission, setHasLocationPermission] = useState(false);
-    const [location, setLocation] = useState({latitude: 0, longitude: 0})
     const [user, setUser] = useState({emailVerified: true, username: "Mantequilla", points: 43 })
-    // set to false in order to go to the main tabs
-    // set to false in order to signUp or LogIn
 
     return (
         <UserContext.Provider value={{ user, setUser }}>
@@ -37,7 +34,7 @@ export default function App() {
                         >
                             <Tab.Screen
                                 name="Home"
-                                children={() => <HomePage location={location} setLocation={setLocation} hasLocationPermission={hasLocationPermission} setHasLocationPermission={setHasLocationPermission}/>}
+                                children={() => <HomePage hasLocationPermission={hasLocationPermission} setHasLocationPermission={setHasLocationPermission}/>}
                                 options={{
                                     tabBarIcon: ({ focused }) => {
                                         return (
@@ -88,7 +85,7 @@ export default function App() {
                             ></Tab.Screen>
                             <Tab.Screen
                                 name="Map"
-                                children={()=><Map location={location} setLocation={setLocation} hasLocationPermission={hasLocationPermission} setHasLocationPermission={setHasLocationPermission}/>}
+                                children={()=><Map hasLocationPermission={hasLocationPermission} setHasLocationPermission={setHasLocationPermission}/>}
                                 options={{
                                     tabBarIcon: ({ focused }) => {
                                         return (

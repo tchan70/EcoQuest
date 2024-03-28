@@ -14,9 +14,8 @@ export default function LogLitter({hasLocationPermission }) {
         setButtonDisabled(true)
         if (hasLocationPermission) {
             (async () => {
-                console.log('testing')
-                currentLocation = await Location.getCurrentPositionAsync({});
-                set(ref(db, `locations/${Date.now()}/`), currentLocation)
+                let currentLocation = await Location.getCurrentPositionAsync({});
+                set(ref(db, `locations/${Date.now()}/`), {latitude: currentLocation.coords.latitude, longitude: currentLocation.coords.longitude })
                 set(ref(db, `users/${user.username}/points`), user.points++)
                     .then(() => {
                         const updatedUser = { ...user }
@@ -57,6 +56,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: "white",
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: 18
     },
 });
