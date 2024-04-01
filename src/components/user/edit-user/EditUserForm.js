@@ -53,8 +53,10 @@ export default function EditUserForm({ onFormSubmit }) {
 
 const styles = StyleSheet.create({
   formContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 10,
-    backgroundColor: "white",
+    backgroundColor: "#F5F5DC",
   },
   input: {
     height: 40,
@@ -63,18 +65,19 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   submitButton: {
-    borderWidth: 2,
-    borderRadius: 30,
-    width: 200,
-    height: 50,
-    backgroundColor: "#4e4e50",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
+      borderRadius: 20,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      backgroundColor: '#28a428', 
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 10,
+      elevation: 3,
+      width: "50%",
   },
   text: {
     color: "#fff",
     fontWeight: 'bold',
-    fontSize: 18,
-    }
+    fontSize: 20,
+  },
 })
