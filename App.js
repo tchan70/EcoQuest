@@ -6,16 +6,32 @@ import LeaderBoardPage from "./src/components/leaderboard/LeaderBoardPage.js";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import Header from "./src/components/Header.js";
 import LoginStack from "./src/components/login-signup/login/LoginStack.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Map from "./src/components/map/Map.js";
 import UserPage from "./src/components/user/UserPage.js";
-import { UserContext, UserProvider } from "./contexts/User.js";
+import { UserContext } from "./contexts/User.js";
+import CreateUser from "./src/components/login-signup/login/CreateUser.js";
+import { FIREBASE_AUTH } from "./firebaseConfig.js";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
 
-    const [user, setUser] = useState(null)
+    const auth = FIREBASE_AUTH;
+    const [user, setUser] = useState(auth.currentUser)
+
+    const [isUsernameCreated, setIsUsernameCreated] = useState(false);
+
+    useEffect(() => {
+        onAuthStateChanged(auth,  (user) => {
+            setUser(user)
+            if (user && user.displayName) {
+                setIsUsernameCreated(true);
+            }
+        })
+    }, [])
+
 
     return (
         <UserContext.Provider value={{ user, setUser }}>
@@ -23,8 +39,8 @@ export default function App() {
                 <Header style={{ flex: 1 }} />
                 {user === null || user.emailVerified === false ? (
                     <LoginStack />
-                ) : (
-                    <>
+                ) : !user.displayName ? (
+                    <CreateUser setIsUsernameCreated={setIsUsernameCreated}/> ) : (
                         <Tab.Navigator
                             initialRouteName="Home"
                             screenOptions={{
@@ -101,10 +117,10 @@ export default function App() {
                                 }}
                             ></Tab.Screen>
                         </Tab.Navigator>
-                    </>
                 )}
             </NavigationContainer>
         </UserContext.Provider>
+
     );
 }
 
