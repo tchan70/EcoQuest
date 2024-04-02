@@ -1,55 +1,37 @@
 import { StyleSheet, Text, View } from "react-native";
-import { useState, useEffect } from "react";
-import { ref, onValue } from 'firebase/database';
-import { db } from '../../../firebaseConfig.js';
 import UserPhoto from "./UserPhoto";
-import { useContext } from "react";
-import { UserContext } from "../../../contexts/User";
 
 
 export default function UserDetails({user}) {
-  
-    const [points, setPoints] = useState('0');
-
-    
-    useEffect(() => {
-        const userDetailsRef = ref(db, `users/${user}/points`);
-        onValue(userDetailsRef, (snapshot) => {
-                const data = snapshot.val();
-                setPoints(data);
-        })
-    }, [])
-    
-    
     return (
         <View style={styles.view}>
-            <Text style={styles.text}>{user}</Text>
+            <Text style={styles.text}>{user.username}</Text>
             <UserPhoto />
-            <Text style={styles.points}>{ points }</Text>
+            <Text style={styles.points}>Points: {user.points}</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     view: {
-        borderWidth: 5,
-        borderRadius: 10,
-        width: 380,
-        height: 470,
-        backgroundColor: "purple",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "5%",
+      borderRadius: 20, 
+      width: '90%', 
+      height: '80%',
+      backgroundColor: "#F5F5DC", 
+      alignItems: "center",
+      justifyContent: "space-evenly", 
+      padding: 20, 
+      marginTop: 20, 
+      elevation: 5,
     },
     text: {
-        color: "white",
-        fontWeight: "bold",
-        fontSize: 20,
+      color: "#228B22", 
+      fontWeight: "bold",
+      fontSize: 32, 
     },
     points: {
-        color: "white",
-        fontWeight: "bold",
-        fontSize: 20,
-        marginTop: "10%",
+      color: "#8B4513", 
+      fontWeight: "bold",
+      fontSize: 32,
     },
-});
+  })

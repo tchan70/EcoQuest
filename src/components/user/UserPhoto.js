@@ -1,25 +1,26 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 
 export default function UserPhoto() {
     return <View style={styles.view}>
-        <Text style={styles.text}>USER PHOTO</Text>
+        <Image source={require('../../../assets/guest.jpg')} style={styles.image} resizeMode="cover" />
     </View>
 }
 
 const styles = StyleSheet.create({
     view: {
-        borderWidth: 5,
-        borderRadius: 150,
+        borderWidth: 3,
+        borderRadius: 150, 
+        borderColor: '#228B22',
         width: 300,
         height: 300,
-        backgroundColor: 'grey',
+        backgroundColor: '#F5F5DC',
         alignItems: 'center',
         justifyContent: "center",
-        marginTop: '5%',
+        overflow: 'hidden', 
     },
-    text: {
-        color: "white",
-        fontWeight: 'bold',
-        fontSize: 20,
-    },
+    image: {
+        width: '100%',
+        height: '100%', 
+        borderRadius: 150, 
+    }
 });
