@@ -14,18 +14,15 @@ export default function LoginPage({ navigation: { replace } }) {
 
     function handleLogin() {
         signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            setUser(auth.currentUser)
+        })
         .catch(err => alert('Could not login! ' + err.message))
     }
 
     function handleGoBack() {
         replace("LogInOrSignInPage")
     }
-
-    useEffect(() => {
-        onAuthStateChanged(auth,  (user) => {
-            setUser(user)
-        })
-    }, [])
 
     return (
         <View

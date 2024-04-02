@@ -16,7 +16,7 @@ export default function SignUpPage({navigation: {replace}}) {
             createUserWithEmailAndPassword(auth, email, password)
             .then((userCredentials) => {
                 sendEmailVerification(userCredentials.user)
-                alert("Please check your inbox to verify your account! Once you verify it, reload app")
+                alert("Please check your email inbox to verify your account!")
                     replace('LogInOrSignInPage')
             })
             .catch(err => alert('Could not sign up! ' + err.message))
