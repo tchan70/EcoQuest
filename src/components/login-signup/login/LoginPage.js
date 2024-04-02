@@ -1,7 +1,6 @@
 import { StyleSheet, Text, TextInput, Button, View } from "react-native";
 import { useContext, useState, useEffect } from "react";
-import { UserContext } from "../../../../contexts/User";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../../../firebaseConfig";
 import { LoggedInUser } from "../../../../contexts/LoggedInUser";
 

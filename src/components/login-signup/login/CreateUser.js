@@ -50,7 +50,7 @@ export default function CreateUser({setIsUsernameCreated}) {
                 placeholder="Username"
                 autoCapitalize="none"
             />
-            {usernameIsAvailable ? (<Text>Username available</Text>) : (<Text>Username not available</Text>)}
+            {username ? (usernameIsAvailable ? <Text>Username available</Text> : <Text>Username not available</Text>) : null}
             <Button title="Submit" onPress={handleSubmit}></Button>
         </View>
     )
