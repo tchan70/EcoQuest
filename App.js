@@ -15,7 +15,6 @@ export default function App() {
   const auth = FIREBASE_AUTH;
   const [user, setUser] = useState(auth.currentUser)
   const [isUsernameCreated, setIsUsernameCreated] = useState(false);
-//    const [user, setUser] = useState({emailVerified: true, username: "Mantequilla", points: 43 })
 
   useEffect(() => {
         onAuthStateChanged(auth,  (user) => {
@@ -24,15 +23,13 @@ export default function App() {
                 setIsUsernameCreated(true);
             }
         })
-    }, [])
-
+  }, [])
 
   function AuthenticatedApp() {
-    const { user } = useContext(UserContext);
     return user === null || user.emailVerified === false ? (
       <LoginStack />
     ) : !user.displayName ? (
-                    <CreateUser setIsUsernameCreated={setIsUsernameCreated}/> 
+      <CreateUser setIsUsernameCreated={setIsUsernameCreated}/>
     ) : (
       <MainTabNavigator 
         hasLocationPermission={hasLocationPermission} 
@@ -40,7 +37,6 @@ export default function App() {
       />
     )
   }
-
 
   return (
     <UserProvider>

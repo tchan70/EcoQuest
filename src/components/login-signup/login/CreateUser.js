@@ -1,20 +1,16 @@
 import { Text, TextInput, View, StyleSheet, Button } from "react-native";
-import { useState, useContext, useEffect } from "react";
-import { ref, onValue } from 'firebase/database';
+import { useState } from "react";
+import { ref, onValue, set } from 'firebase/database';
 import { db } from "../../../../firebaseConfig";
 import { FIREBASE_AUTH } from "../../../../firebaseConfig";
 import { updateProfile } from "firebase/auth";
-import { UserContext } from "../../../../contexts/User";
 
 
 export default function CreateUser({setIsUsernameCreated}) {
 
     const auth = FIREBASE_AUTH;
-    const { user, setUser } = useContext(UserContext);
-
     const [username, setUsername] = useState(null)
     const [usernameIsAvailable, setUserNameIsAvailable] = useState(false)
-
 
     function handleOnChange(username) {
         setUsername(username);
@@ -25,7 +21,6 @@ export default function CreateUser({setIsUsernameCreated}) {
             })
     }
 
-
     function handleSubmit() {
         if (usernameIsAvailable) {
             updateProfile(auth.currentUser, {
@@ -35,6 +30,7 @@ export default function CreateUser({setIsUsernameCreated}) {
                 setUserNameIsAvailable(false);
                 setIsUsernameCreated(true);
                 console.log("displayName updated");
+                set(ref(db, `users/${username}/points`), 0)
             })
             .catch((error) => {
                 console.log(error);
@@ -54,7 +50,7 @@ export default function CreateUser({setIsUsernameCreated}) {
                 placeholder="Username"
                 autoCapitalize="none"
             />
-            {usernameIsAvailable? (<Text>Username available</Text>) : (<Text>Username not available</Text>)}
+            {usernameIsAvailable ? (<Text>Username available</Text>) : (<Text>Username not available</Text>)}
             <Button title="Submit" onPress={handleSubmit}></Button>
         </View>
     )

@@ -5,7 +5,7 @@ import UserPhoto from "./UserPhoto";
 export default function UserDetails({user}) {
     return (
         <View style={styles.view}>
-            <Text style={styles.text}>{user.username}</Text>
+            <Text style={styles.text}>{user.displayName}</Text>
             <UserPhoto />
             <Text style={styles.points}>Points: {user.points}</Text>
         </View>

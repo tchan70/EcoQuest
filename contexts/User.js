@@ -6,9 +6,6 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
-    emailVerified: true,
-    username: "Mantequilla",
-    points: 43,
   });
 
   const updateUserPoints = (pointsToAdd) => {
