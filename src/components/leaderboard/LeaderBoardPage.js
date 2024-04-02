@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from "react-native"
 import LeaderBoardTable from "./LeaderBoardTable"
+import DailyLeaderBoard from "./DailyLeaderBoard"
 
 export default function LeaderBoard() {
     
     return (
         <View style={styles.view}>
-            <LeaderBoardTable/>
+            <DailyLeaderBoard/>
         </View>
     )
 }
