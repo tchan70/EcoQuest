@@ -5,7 +5,6 @@ export default function LeaderBoard() {
     
     return (
         <View style={styles.view}>
-            <Text>Leaderboard</Text>
             <LeaderBoardTable/>
         </View>
     )
@@ -13,6 +12,7 @@ export default function LeaderBoard() {
 
 const styles = StyleSheet.create({
     view: {
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: "#F5F5DC"
     }
 })
