@@ -8,26 +8,67 @@ import { db } from '../../../firebaseConfig';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function Map({hasLocationPermission,setHasLocationPermission}) {
-  const [pointsData, setPointsData] = useState([])
+  const [rawCoordinates, setRawCoordinates] = useState([]);
+  const [filteredCoordinates, setFilteredCoordinates] = useState([]);
+  const [timeSliderValue, setTimeSliderValue] = useState();
   const [heatmapDisplay, setHeatmapDisplay] =useState(false)
 
-  const queriedPoints = ref(db, 'locations')
+  const queriedPoints = ref(db, 'timestampedLocations')
 
   useEffect(()=>{
     onValue(queriedPoints, (snapshot) => {
       const coordinates = []
       snapshot.forEach((child)=>{
-        const {latitude, longitude} = child.val()
-
-        coordinates.push({latitude: latitude, longitude: longitude})
-        
-        
+        const timeBlockCoordinates = child.val()
+          timeBlockCoordinates.forEach((coordinate) => {
+              coordinates.push(coordinate);
+          });
       })
-
-      setPointsData(coordinates)
+      setRawCoordinates(coordinates)
       setHeatmapDisplay(true)
     })
   }, [])
+
+  useEffect(()=>{
+      const startTime = null;
+      const startTimes = [-1, -2, -3, -4, -8, -12, -24, -48, -96, -168];
+      const currentHour = Math.floor(Date.now()/3600000);
+      switch (timeSliderValue) {
+          case 1:
+              startTime = startTimes[0];
+              break;
+          case 2:
+              startTime = startTimes[1];
+              break;
+          case 3:
+              startTime = startTimes[2];
+              break;
+          case 4:
+              startTime = startTimes[3];
+              break;
+          case 5:
+              startTime = startTimes[4];
+              break;
+          case 6:
+              startTime = startTimes[5];
+              break;
+          case 7:
+              startTime = startTimes[6];
+              break;
+          case 8:
+              startTime = startTimes[7];
+              break;
+          case 9:
+              startTime = startTimes[8];
+              break;
+          case 10:
+              startTime = startTimes[9];
+              break;
+          default:
+              break;
+      };
+
+  }, [coordinatesStartTimeNumber])
 
   useFocusEffect(() => {
     (async () => {
@@ -60,7 +101,7 @@ export default function Map({hasLocationPermission,setHasLocationPermission}) {
           showsUserLocation={hasLocationPermission}
           showsMyLocationButton
           >
-          {heatmapDisplay ? <Heatmap points={pointsData} radius={30} opacity={0.7}/> : null}
+          {heatmapDisplay ? <Heatmap points={rawCoordinates} radius={30} opacity={0.7}/> : null}
           </MapView>
       </View>
       );
