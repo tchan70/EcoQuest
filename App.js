@@ -5,30 +5,33 @@ import LoginStack from "./src/components/login-signup/login/LoginStack.js";
 import CreateUser from "./src/components/login-signup/login/CreateUser.js";
 import { FIREBASE_AUTH } from "./firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
-import { useContext, useState, useEffect } from "react";
-import { UserProvider, UserContext  } from "./contexts/User.js";
+import { useState, useEffect } from "react";
+import { UserProvider } from "./contexts/User.js";
 import { QuestsProvider} from "./contexts/Quests.js";
 import MainTabNavigator from "./src/components/tab-navigator/MainTabNavigator.js";
+import { LoggedInUser }from "./contexts/LoggedInUser.js"
+
 
 export default function App() {
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const auth = FIREBASE_AUTH;
-  const [user, setUser] = useState(auth.currentUser)
   const [isUsernameCreated, setIsUsernameCreated] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState(auth.currentUser)
+
 
   useEffect(() => {
         onAuthStateChanged(auth,  (user) => {
-            setUser(user)
-            if (user && user.displayName) {
+            setLoggedInUser(user)
+            if (loggedInUser && loggedInUser.displayName) {
                 setIsUsernameCreated(true);
             }
         })
   }, [])
 
   function AuthenticatedApp() {
-    return user === null || user.emailVerified === false ? (
+    return loggedInUser === null || loggedInUser.emailVerified === false ? (
       <LoginStack />
-    ) : !user.displayName ? (
+    ) : !loggedInUser.displayName ? (
       <CreateUser setIsUsernameCreated={setIsUsernameCreated}/>
     ) : (
       <MainTabNavigator 
@@ -39,6 +42,7 @@ export default function App() {
   }
 
   return (
+    <LoggedInUser.Provider value={{loggedInUser, setLoggedInUser}}>
     <UserProvider>
     <QuestsProvider>
       <NavigationContainer>
@@ -47,6 +51,7 @@ export default function App() {
       </NavigationContainer>
     </QuestsProvider>
     </UserProvider>
+    </LoggedInUser.Provider>
   );
 }
 

@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../../../contexts/User";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../../../firebaseConfig";
+import { LoggedInUser } from "../../../../contexts/LoggedInUser";
 
 
 export default function LoginPage({ navigation: { replace } }) {
@@ -10,12 +11,12 @@ export default function LoginPage({ navigation: { replace } }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const auth = FIREBASE_AUTH;
-    const { setUser } = useContext(UserContext);
+    const { setLoggedInUser } = useContext(LoggedInUser);
 
     function handleLogin() {
         signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-            setUser(auth.currentUser)
+            setLoggedInUser(auth.currentUser)
         })
         .catch(err => alert('Could not login! ' + err.message))
     }
