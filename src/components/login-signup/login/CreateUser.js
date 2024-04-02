@@ -1,6 +1,6 @@
 import { Text, TextInput, View, StyleSheet, Button } from "react-native";
 import { useState, useContext, useEffect } from "react";
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, set } from 'firebase/database';
 import { db } from "../../../../firebaseConfig";
 import { FIREBASE_AUTH } from "../../../../firebaseConfig";
 import { updateProfile } from "firebase/auth";
@@ -35,6 +35,7 @@ export default function CreateUser({setIsUsernameCreated}) {
                 setUserNameIsAvailable(false);
                 setIsUsernameCreated(true);
                 console.log("displayName updated");
+                set(ref(db, `users/${username}/points`), 0)
             })
             .catch((error) => {
                 console.log(error);
