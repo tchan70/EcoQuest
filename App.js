@@ -32,6 +32,8 @@ export default function App() {
         })
     }, [])
 
+    const [hasLocationPermission, setHasLocationPermission] = useState(false);
+//    const [user, setUser] = useState({emailVerified: true, username: "Mantequilla", points: 43 })
 
     return (
         <UserContext.Provider value={{ user, setUser }}>
@@ -50,7 +52,7 @@ export default function App() {
                         >
                             <Tab.Screen
                                 name="Home"
-                                component={HomePage}
+                                children={() => <HomePage hasLocationPermission={hasLocationPermission} setHasLocationPermission={setHasLocationPermission}/>}
                                 options={{
                                     tabBarIcon: ({ focused }) => {
                                         return (
@@ -101,7 +103,7 @@ export default function App() {
                             ></Tab.Screen>
                             <Tab.Screen
                                 name="Map"
-                                component={Map}
+                                children={()=><Map hasLocationPermission={hasLocationPermission} setHasLocationPermission={setHasLocationPermission}/>}
                                 options={{
                                     tabBarIcon: ({ focused }) => {
                                         return (
