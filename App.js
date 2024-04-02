@@ -1,8 +1,8 @@
 import { StyleSheet,} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import Header from "./src/components/Header.js";
-import LoginStack from "./src/components/login-signup/login/LoginStack.js";
-import CreateUser from "./src/components/login-signup/login/CreateUser.js";
+import LoginStack from "./src/components/login-signup/LoginStack.js";
+import CreateUser from "./src/components/login-signup/CreateUser.js";
 import { FIREBASE_AUTH } from "./firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";

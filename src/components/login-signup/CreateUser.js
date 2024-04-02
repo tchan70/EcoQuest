@@ -1,8 +1,8 @@
 import { Text, TextInput, View, StyleSheet, Button } from "react-native";
 import { useState } from "react";
 import { ref, onValue, set } from 'firebase/database';
-import { db } from "../../../../firebaseConfig";
-import { FIREBASE_AUTH } from "../../../../firebaseConfig";
+import { db } from "../../../firebaseConfig";
+import { FIREBASE_AUTH } from "../../../firebaseConfig";
 import { updateProfile } from "firebase/auth";
 
 

@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TextInput, Button, View } from "react-native";
 import { useContext, useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { FIREBASE_AUTH } from "../../../../firebaseConfig";
-import { LoggedInUser } from "../../../../contexts/LoggedInUser";
+import { FIREBASE_AUTH } from "../../../firebaseConfig";
+import { LoggedInUser } from "../../../contexts/LoggedInUser";
 
 
 export default function LoginPage({ navigation: { replace } }) {
@@ -21,7 +21,7 @@ export default function LoginPage({ navigation: { replace } }) {
     }
 
     function handleGoBack() {
-        replace("LogInOrSignInPage")
+        replace("LogInVsSignUpPage")
     }
 
     return (
