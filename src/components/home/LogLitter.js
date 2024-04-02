@@ -1,38 +1,39 @@
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { db } from "../../../firebaseConfig";
 import { ref, set } from "firebase/database";
-import { UserContext } from "../../../contexts/User";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import * as Location from "expo-location";
+import { useGameContext } from "../../../hooks/useGameContext";
 
 export default function LogLitter({ hasLocationPermission }) {
-  const { user, setUser, decrementLitterCount } = useContext(UserContext);
+  const { updateUserPoints, decrementLitterCount } = useGameContext();
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [thankYouVisible, setThankYouVisible] = useState(false);
 
-  const postLitterLocation = () => {
+  const postLitterLocation = async () => {
     setThankYouVisible(true);
     setButtonDisabled(true);
     decrementLitterCount();
-    setTimeout(() => setThankYouVisible(false), 2500);
+
+    setTimeout(() => {
+      setThankYouVisible(false);
+      setButtonDisabled(false);
+    }, 2500);
+
     if (hasLocationPermission) {
-      (async () => {
-        let currentLocation = await Location.getCurrentPositionAsync({});
-        set(ref(db, `locations/${Date.now()}/`), {
+      let currentLocation = await Location.getCurrentPositionAsync({});
+      try {
+        await set(ref(db, `locations/${Date.now()}/`), {
           latitude: currentLocation.coords.latitude,
           longitude: currentLocation.coords.longitude,
         });
-        set(ref(db, `users/${user.username}/points`), user.points++)
-          .then(() => {
-            const updatedUser = { ...user };
-            updatedUser.points = user.points++;
-            setUser(updatedUser);
-            setButtonDisabled(false);
-          })
-          .catch((error) => console.log(error));
-      })();
+        updateUserPoints(1); 
+      } 
+      catch (error) {
+        console.log(error);
+      }
     }
-  };
+  }
 
   return (
     <View>

@@ -1,9 +1,6 @@
 import {
   Image,
-  Modal,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import LogLitter from "./LogLitter";

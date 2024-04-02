@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { UserContext } from "../../../contexts/User";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useGameContext } from "../../../hooks/useGameContext";
 
 export default function DailyQuest() {
   const [timeLeft, setTimeLeft] = useState("");
+  const [pointsAwarded, setPointsAwarded] = useState(false)
   const {
     dailyQuest,
     setDailyQuest,
@@ -13,52 +14,54 @@ export default function DailyQuest() {
     questCompleted,
     formatDate,
     completedQuestReward,
-  } = useContext(UserContext);
+    enhancedCompleteQuest,
+  } = useGameContext()
 
   useEffect(() => {
-    getDailyQuest().then((dailyQuestFromStorage) => {
-      if (!dailyQuestFromStorage) {
-        const newQuest = generateDailyQuest();
-        saveDailyQuest(newQuest);
-        setDailyQuest(newQuest);
-      } else {
-        setDailyQuest(dailyQuestFromStorage);
-      }
-    });
-    setTimeLeft(calculateTimeLeft());
+    getDailyQuest();
+  }, []);
 
+  useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
+      const newTimeLeft = calculateTimeLeft();
+      setTimeLeft(newTimeLeft);
     }, 1000);
     return () => clearInterval(timer);
-  }, [dailyQuest.isCompleted]);
+  }, []); 
+
+  useEffect(() => {
+    if (questCompleted && !pointsAwarded) {
+      enhancedCompleteQuest();
+      setPointsAwarded(true);
+    }
+    if (!questCompleted && pointsAwarded) {
+      setPointsAwarded(false);
+    }
+    if (timeLeft === "0h 0m 0s") {
+      getDailyQuest(true); 
+    }
+  }, [questCompleted, enhancedCompleteQuest, timeLeft]);
 
   const calculateTimeLeft = () => {
     const now = new Date();
-    const endOfDay = new Date(now);
-    endOfDay.setHours(23, 59, 59, 999);
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
     const diff = endOfDay - now;
-
-    let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+    const hours = Math.floor(diff / (1000 * 60 * 60) % 24);
+    const minutes = Math.floor(diff / (1000 * 60) % 60);
+    const seconds = Math.floor(diff / 1000 % 60);
     return `${hours}h ${minutes}m ${seconds}s`;
   };
 
-  const getDailyQuest = async () => {
+  const getDailyQuest = async (forceNewQuest = false) => {
     const today = formatDate(new Date());
-    try {
-      const questString = await AsyncStorage.getItem(`dailyQuest_${today}`);
-      if (questString !== null) {
-        return JSON.parse(questString);
-      }
+    const questString = await AsyncStorage.getItem(`dailyQuest_${today}`);
+    if (!questString || forceNewQuest) {
       const newQuest = generateDailyQuest();
-      saveDailyQuest(newQuest);
-      return newQuest;
-    } catch (err) {
-      console.error(err, "Error in getDailyQuest");
-      return generateDailyQuest();
+      await saveDailyQuest(newQuest);
+      setDailyQuest(newQuest);
+    } 
+    else {
+      setDailyQuest(JSON.parse(questString));
     }
   };
 
