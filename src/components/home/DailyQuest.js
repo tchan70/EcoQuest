@@ -5,7 +5,6 @@ import { useGameContext } from "../../../hooks/useGameContext";
 
 export default function DailyQuest() {
   const [timeLeft, setTimeLeft] = useState("");
-  const [pointsAwarded, setPointsAwarded] = useState(false);
   const {
     dailyQuest,
     setDailyQuest,
@@ -14,7 +13,6 @@ export default function DailyQuest() {
     questCompleted,
     formatDate,
     completedQuestReward,
-    enhancedCompleteQuest,
   } = useGameContext();
 
   useEffect(() => {
@@ -28,19 +26,6 @@ export default function DailyQuest() {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    if (questCompleted && !pointsAwarded) {
-      enhancedCompleteQuest();
-      setPointsAwarded(true);
-    }
-    if (!questCompleted && pointsAwarded) {
-      setPointsAwarded(false);
-    }
-    if (timeLeft === "0h 0m 0s") {
-      getDailyQuest(true);
-    }
-  }, [questCompleted, enhancedCompleteQuest, timeLeft]);
 
   const calculateTimeLeft = () => {
     const now = new Date();
@@ -67,7 +52,8 @@ export default function DailyQuest() {
       const newQuest = generateDailyQuest();
       await saveDailyQuest(newQuest);
       setDailyQuest(newQuest);
-    } else {
+    } 
+    else {
       setDailyQuest(JSON.parse(questString));
     }
   };

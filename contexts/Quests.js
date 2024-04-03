@@ -6,6 +6,7 @@ export const QuestContext = createContext();
 export const QuestsProvider = ({ children }) => {
   const [questCompleted, setQuestCompleted] = useState(false);
   const [completedQuestReward, setCompletedQuestReward] = useState(0);
+  const [rewardDistributed, setRewardDistributed] = useState(false)
   const [dailyQuest, setDailyQuest] = useState({
     task: "",
     count: 0,
@@ -13,20 +14,23 @@ export const QuestsProvider = ({ children }) => {
   });
 
   const decrementLitterCount = () => {
-    setDailyQuest((prevQuest) => {
-      const newCount = prevQuest.count - 1;
-      if (newCount <= 0) {
-        completeQuest();
-        return { ...prevQuest, count: newCount, isCompleted: true };
-      } 
-      else {
-        return { ...prevQuest, count: newCount };
-      }
+    return new Promise((resolve) => {
+      setDailyQuest((prevQuest) => {
+        const newCount = prevQuest.count - 1;
+        setCompletedQuestReward(dailyQuest.rewardPoints);
+        if (newCount <= 0) {
+          completeQuest();
+          resolve(true); 
+          return { ...prevQuest, count: newCount, isCompleted: true };
+        } else {
+          resolve(false); 
+          return { ...prevQuest, count: newCount };
+        }
+      });
     });
   };
 
   const completeQuest = () => {
-    setCompletedQuestReward(dailyQuest.rewardPoints);
     setQuestCompleted(true);
   };
 
@@ -42,6 +46,7 @@ export const QuestsProvider = ({ children }) => {
 
   const generateDailyQuest = () => {
     setQuestCompleted(false);
+    setRewardDistributed(false);
     const amount = Math.floor(Math.random() * 10) + 1;
     const rewardPoints = amount + 3;
     return {
@@ -75,6 +80,8 @@ export const QuestsProvider = ({ children }) => {
         questCompleted,
         formatDate,
         completedQuestReward,
+        rewardDistributed,
+        setRewardDistributed,
       }}
     >
       {children}

@@ -38,7 +38,7 @@ export default function UserPage() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <EditUserForm onFormSubmit={() => setEditUserModalVisible(false)} />
+            <EditUserForm onFormSubmit={() => setEditUserModalVisible(false)} user={user}/>
             <TouchableOpacity
               onPress={() => setEditUserModalVisible(false)}
               style={styles.cancelButton}

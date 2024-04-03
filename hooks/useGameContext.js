@@ -14,19 +14,13 @@ export const useGameContext = () => {
     questCompleted,
     formatDate,
     completedQuestReward,
+    rewardDistributed,
+    setRewardDistributed,
   } = useContext(QuestContext);
-
-  const enhancedCompleteQuest = () => {
-    console.log(dailyQuest, "this is dailyQuest");
-    console.log(dailyQuest.rewardPoints, "this is dailyQuest.rewardPoints");
-    updateUserPoints(dailyQuest.rewardPoints);
-    completeQuest();
-  };
 
   return {
     user,
     updateUserPoints,
-    enhancedCompleteQuest,
     dailyQuest,
     setDailyQuest,
     decrementLitterCount,
@@ -36,5 +30,7 @@ export const useGameContext = () => {
     questCompleted,
     formatDate,
     completedQuestReward,
+    rewardDistributed,
+    setRewardDistributed,
   };
 };
