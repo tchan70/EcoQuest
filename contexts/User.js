@@ -27,15 +27,12 @@ export const UserProvider = ({ children, loggedInUser }) => {
   const updateUserPoints = (pointsToAdd) => {
     const newPoints = user.points + pointsToAdd;
     const userRef = ref(db, `users/${user.username}/points`);
-    console.log(pointsToAdd, "this is pointsToAdd");
-    console.log(newPoints, "this is newPoints");
     set(userRef, newPoints)
       .then(() => {
         setUser((currentUser) => ({
           ...currentUser,
           points: newPoints,
         }));
-        console.log(user, "this is user after being set in updateUserPoints");
       })
       .catch((error) => {
         console.error("Error updating user points in Firebase:", error);
