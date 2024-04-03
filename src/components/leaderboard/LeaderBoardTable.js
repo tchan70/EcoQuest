@@ -69,16 +69,16 @@ export default function LeaderBoardTable() {
 const styles = StyleSheet.create({
     view: {
         width: 380,
-        height: 620,
+        height: 430,
         backgroundColor: "transparent",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "4%",
+        marginTop: "2%",
     },
     rankList: {
         flex: 1,
         justifyContent: "center",
-        marginBottom: 50,
+        marginBottom: 0,
         width: "85%",
     },
     loading: {
@@ -135,6 +135,6 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
         justifyContent: "space-evenly",
         backgroundColor: "#e6ffe6",
-        margin: 5,
+        margin: 3,
     },
 });
