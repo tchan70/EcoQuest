@@ -35,6 +35,7 @@ export const UserProvider = ({ children, loggedInUser }) => {
           ...currentUser,
           points: newPoints,
         }));
+        console.log(user, "this is user after being set in updateUserPoints");
       })
       .catch((error) => {
         console.error("Error updating user points in Firebase:", error);
@@ -47,3 +48,4 @@ export const UserProvider = ({ children, loggedInUser }) => {
     </UserContext.Provider>
   );
 };
+

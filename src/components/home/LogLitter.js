@@ -43,7 +43,7 @@ export default function LogLitter({ hasLocationPermission }) {
     if (hasLocationPermission) {
         let currentLocation = await Location.getCurrentPositionAsync({});
         try {
-            await set(ref(db, `locations/${Date.now()}`), {
+            await set(ref(db, `timestampedLocations/${Math.floor(Date.now()/3600000)}/`), {
                 latitude: currentLocation.coords.latitude,
                 longitude: currentLocation.coords.longitude,
             });
