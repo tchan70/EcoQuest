@@ -5,7 +5,7 @@ import { useGameContext } from "../../../hooks/useGameContext";
 
 export default function DailyQuest() {
   const [timeLeft, setTimeLeft] = useState("");
-  const [pointsAwarded, setPointsAwarded] = useState(false)
+  const [pointsAwarded, setPointsAwarded] = useState(false);
   const {
     dailyQuest,
     setDailyQuest,
@@ -15,7 +15,7 @@ export default function DailyQuest() {
     formatDate,
     completedQuestReward,
     enhancedCompleteQuest,
-  } = useGameContext()
+  } = useGameContext();
 
   useEffect(() => {
     getDailyQuest();
@@ -27,7 +27,7 @@ export default function DailyQuest() {
       setTimeLeft(newTimeLeft);
     }, 1000);
     return () => clearInterval(timer);
-  }, []); 
+  }, []);
 
   useEffect(() => {
     if (questCompleted && !pointsAwarded) {
@@ -38,17 +38,25 @@ export default function DailyQuest() {
       setPointsAwarded(false);
     }
     if (timeLeft === "0h 0m 0s") {
-      getDailyQuest(true); 
+      getDailyQuest(true);
     }
   }, [questCompleted, enhancedCompleteQuest, timeLeft]);
 
   const calculateTimeLeft = () => {
     const now = new Date();
-    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+    const endOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
     const diff = endOfDay - now;
-    const hours = Math.floor(diff / (1000 * 60 * 60) % 24);
-    const minutes = Math.floor(diff / (1000 * 60) % 60);
-    const seconds = Math.floor(diff / 1000 % 60);
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
     return `${hours}h ${minutes}m ${seconds}s`;
   };
 
@@ -59,8 +67,7 @@ export default function DailyQuest() {
       const newQuest = generateDailyQuest();
       await saveDailyQuest(newQuest);
       setDailyQuest(newQuest);
-    } 
-    else {
+    } else {
       setDailyQuest(JSON.parse(questString));
     }
   };

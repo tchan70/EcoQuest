@@ -18,7 +18,8 @@ export const QuestsProvider = ({ children }) => {
       if (newCount <= 0) {
         completeQuest();
         return { ...prevQuest, count: newCount, isCompleted: true };
-      } else {
+      } 
+      else {
         return { ...prevQuest, count: newCount };
       }
     });
@@ -40,7 +41,7 @@ export const QuestsProvider = ({ children }) => {
   };
 
   const generateDailyQuest = () => {
-    setQuestCompleted(false)
+    setQuestCompleted(false);
     const amount = Math.floor(Math.random() * 10) + 1;
     const rewardPoints = amount + 3;
     return {
@@ -76,7 +77,7 @@ export const QuestsProvider = ({ children }) => {
         completedQuestReward,
       }}
     >
-    {children}
+      {children}
     </QuestContext.Provider>
-  )
-}
+  );
+};
