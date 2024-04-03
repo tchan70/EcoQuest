@@ -23,22 +23,29 @@ export default function DailyLeaderBoard() {
         limitToLast(10)
     );
 
-    console.log(queriedUsers)
+
     const cutoff = Date.now() - 24 * 60 * 60 * 1000
-    console.log(cutoff)
     useEffect(() => {
         onValue(queriedUsers, (snapshot) => {
             const orderedUsers = [];
             snapshot.forEach((child) => {
-                console.log(child)
-                const dailyPoints = Object.keys(child.val().logs)
-                dailyPoints.filter((point)=>{
+                const allPoints = Object.keys(child.val().logs)
+                const dailyPoints = allPoints.filter((point) => {
                     return point > cutoff
                 })
-                orderedUsers.push({username: child.key, points: dailyPoints.length })
+                orderedUsers.push({ username: child.key, points: dailyPoints.length })
             });
+            orderedUsers.sort((a, b) => {
+                if (b.points - a.points) {
+                    return b.points - a.points
+                } else {
+                    const usernameA = a.username.toUpperCase()
+                    const usernameB = b.username.toUpperCase()
+                    if (usernameA < usernameB) return -1
+                    else return 1
+                }
+            })
             console.log(orderedUsers)
-            // orderedUsers.sort()
             setTopUserList(orderedUsers);
             setIsLoading(false)
         });
@@ -84,16 +91,16 @@ export default function DailyLeaderBoard() {
 const styles = StyleSheet.create({
     view: {
         width: 380,
-        height: 620,
+        height: 430,
         backgroundColor: "transparent",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "4%",
+        marginTop: "2%",
     },
     rankList: {
         flex: 1,
         justifyContent: "center",
-        marginBottom: 50,
+        marginBottom: 10,
         width: "85%",
     },
     loading: {
@@ -139,17 +146,20 @@ const styles = StyleSheet.create({
         width: "56%",
     },
     leaderboardHeader: {
-        flex: 1,
+        // flex: 1,
         flexWrap: "wrap",
         justifyContent: "space-evenly",
         backgroundColor: "#228B22",
         margin: 5,
+        height: 35
     },
     leaderboardItem: {
-        flex: 1,
+        // flex: 1,
         flexWrap: "wrap",
         justifyContent: "space-evenly",
         backgroundColor: "#e6ffe6",
-        margin: 5,
+        margin: 3,
+        height: 35
+
     },
 });
