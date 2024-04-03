@@ -1,13 +1,13 @@
+import React, { useState, useEffect } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { db } from "../../../firebaseConfig";
-import { ref, set } from "firebase/database";
-import { useEffect, useState } from "react";
 import * as Location from "expo-location";
+import { ref, set } from "firebase/database";
+import { db } from "../../../firebaseConfig";
 import { useGameContext } from "../../../hooks/useGameContext";
 
 export default function LogLitter({ hasLocationPermission }) {
   const {
-    updateUserPoints, decrementLitterCount, 
+    updateUserPoints, decrementLitterCount,
     completedQuestReward, rewardDistributed, setRewardDistributed
   } = useGameContext();
   const [updateQueue, setUpdateQueue] = useState([]);
@@ -17,10 +17,10 @@ export default function LogLitter({ hasLocationPermission }) {
   useEffect(() => {
     if (updateQueue.length > 0) {
       const nextUpdate = updateQueue[0];
-      nextUpdate(); 
-      setUpdateQueue(currentQueue => currentQueue.slice(1)); 
+      nextUpdate();
+      setUpdateQueue(currentQueue => currentQueue.slice(1));
     }
-  }, [updateQueue]); 
+  }, [updateQueue]);
 
   const addToQueue = (updateFunction) => {
     setUpdateQueue(currentQueue => [...currentQueue, updateFunction]);
@@ -31,7 +31,7 @@ export default function LogLitter({ hasLocationPermission }) {
     setButtonDisabled(true);
 
     const questJustCompleted = await decrementLitterCount();
-    addToQueue(() => updateUserPoints(1)); 
+    addToQueue(() => updateUserPoints(1));
 
     if (questJustCompleted && !rewardDistributed) {
         addToQueue(() => {
@@ -43,7 +43,7 @@ export default function LogLitter({ hasLocationPermission }) {
     if (hasLocationPermission) {
         let currentLocation = await Location.getCurrentPositionAsync({});
         try {
-            await set(ref(db, `timestampedLocations/${Math.floor(Date.now()/3600000)}/`), {
+            await set(ref(db, `timestampedLocations/${Math.floor(Date.now()/3600000)}/}`), {
                 latitude: currentLocation.coords.latitude,
                 longitude: currentLocation.coords.longitude,
             });
@@ -53,9 +53,10 @@ export default function LogLitter({ hasLocationPermission }) {
     }
 
     setTimeout(() => {
-        setThankYouVisible(false);
-        setButtonDisabled(false);
-    }, 2500);
+      setThankYouVisible(false);
+    }, 2500); 
+
+    setButtonDisabled(false);
   };
 
   return (
@@ -74,18 +75,23 @@ export default function LogLitter({ hasLocationPermission }) {
         transparent={true}
         visible={thankYouVisible}
         onRequestClose={() => setThankYouVisible(false)}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              You've earned a point! Thank you for keeping our earth clean! :)
-            </Text>
+        <TouchableOpacity
+          style={styles.outerModalView}
+          activeOpacity={1}
+          onPress={() => setThankYouVisible(false)} 
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                You've earned a point! Thank you for keeping our earth clean! :)
+              </Text>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </Modal>
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   buttonCommon: {
@@ -122,13 +128,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
     elevation: 5,
   },
   outerModalView: {

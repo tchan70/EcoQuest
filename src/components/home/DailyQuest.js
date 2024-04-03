@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
   questText: {
     fontSize: 18,
     fontWeight: "bold",
+    textAlign: 'center',
     color: "#228B22",
     marginBottom: 10,
   },

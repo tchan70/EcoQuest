@@ -1,5 +1,7 @@
 import { useRef, useEffect } from "react";
-import { Text, StyleSheet, View, Animated } from "react-native";
+import { Text, StyleSheet, View, Animated, Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window")
 
 export default function Header() {
   const cloudPositions = Array.from(
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 28,
+    fontSize: width * 0.075,
     fontWeight: "bold",
     letterSpacing: 1,
   },
