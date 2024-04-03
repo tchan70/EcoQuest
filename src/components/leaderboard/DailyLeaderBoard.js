@@ -4,16 +4,12 @@ import {
     ref,
     query,
     onValue,
-    orderByChild,
     orderByKey,
     limitToLast,
 } from "firebase/database";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../contexts/User";
+import { useEffect, useState } from "react";
 
 export default function DailyLeaderBoard() {
-    // const user = "fakeusername"
-
     const [topUsersList, setTopUserList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -45,7 +41,6 @@ export default function DailyLeaderBoard() {
                     else return 1
                 }
             })
-            console.log(orderedUsers)
             setTopUserList(orderedUsers);
             setIsLoading(false)
         });
@@ -146,7 +141,6 @@ const styles = StyleSheet.create({
         width: "56%",
     },
     leaderboardHeader: {
-        // flex: 1,
         flexWrap: "wrap",
         justifyContent: "space-evenly",
         backgroundColor: "#228B22",
@@ -154,7 +148,6 @@ const styles = StyleSheet.create({
         height: 35
     },
     leaderboardItem: {
-        // flex: 1,
         flexWrap: "wrap",
         justifyContent: "space-evenly",
         backgroundColor: "#e6ffe6",
