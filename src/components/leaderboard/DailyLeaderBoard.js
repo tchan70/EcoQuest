@@ -5,25 +5,47 @@ import {
     query,
     onValue,
     orderByChild,
+    orderByKey,
     limitToLast,
 } from "firebase/database";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../../contexts/User";
 
-export default function LeaderBoardTable() {
+export default function DailyLeaderBoard() {
+    // const user = "fakeusername"
+
     const [topUsersList, setTopUserList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const queriedUsers = query(
-        ref(db, "users"),
-        orderByChild("points"),
+        ref(db, `users/fakeusername/`),
+        orderByKey(),
         limitToLast(10)
     );
+
+
+    const cutoff = Date.now() - 24 * 60 * 60 * 1000
     useEffect(() => {
         onValue(queriedUsers, (snapshot) => {
             const orderedUsers = [];
             snapshot.forEach((child) => {
-                orderedUsers.unshift({ username: child.key, ...child.val() });
+                const allPoints = Object.keys(child.val().logs)
+                const dailyPoints = allPoints.filter((point) => {
+                    return point > cutoff
+                })
+                orderedUsers.push({ username: child.key, points: dailyPoints.length })
             });
+            orderedUsers.sort((a, b) => {
+                if (b.points - a.points) {
+                    return b.points - a.points
+                } else {
+                    const usernameA = a.username.toUpperCase()
+                    const usernameB = b.username.toUpperCase()
+                    if (usernameA < usernameB) return -1
+                    else return 1
+                }
+            })
+            console.log(orderedUsers)
             setTopUserList(orderedUsers);
             setIsLoading(false)
         });
@@ -78,7 +100,7 @@ const styles = StyleSheet.create({
     rankList: {
         flex: 1,
         justifyContent: "center",
-        marginBottom: 0,
+        marginBottom: 10,
         width: "85%",
     },
     loading: {
@@ -124,17 +146,20 @@ const styles = StyleSheet.create({
         width: "56%",
     },
     leaderboardHeader: {
-        flex: 1,
+        // flex: 1,
         flexWrap: "wrap",
         justifyContent: "space-evenly",
         backgroundColor: "#228B22",
         margin: 5,
+        height: 35
     },
     leaderboardItem: {
-        flex: 1,
+        // flex: 1,
         flexWrap: "wrap",
         justifyContent: "space-evenly",
         backgroundColor: "#e6ffe6",
         margin: 3,
+        height: 35
+
     },
 });
