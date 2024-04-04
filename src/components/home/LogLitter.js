@@ -8,7 +8,7 @@ import { useGameContext } from "../../../hooks/useGameContext";
 const { width, height } = Dimensions.get("window");
 
 const scaleText = (size) => {
-  const scaleFactor = Math.min(width / 360, height / 640); 
+  const scaleFactor = Math.min(width / 360, height / 640);
   return size * scaleFactor;
 };
 
@@ -41,27 +41,27 @@ export default function LogLitter({ hasLocationPermission }) {
     addToQueue(() => updateUserPoints(1));
 
     if (questJustCompleted && !rewardDistributed) {
-        addToQueue(() => {
-            updateUserPoints(completedQuestReward + 1);
-            setRewardDistributed(true);
-        });
+      addToQueue(() => {
+        updateUserPoints(completedQuestReward + 1);
+        setRewardDistributed(true);
+      });
     }
 
     if (hasLocationPermission) {
-        let currentLocation = await Location.getCurrentPositionAsync({});
-        try {
-            await set(ref(db, `timestampedLocations/${Math.floor(Date.now()/3600000)}/`), {
-                latitude: currentLocation.coords.latitude,
-                longitude: currentLocation.coords.longitude,
-            });
-        } catch (error) {
-            console.error(error);
-        }
+      let currentLocation = await Location.getCurrentPositionAsync({});
+      try {
+        await set(ref(db, `timestampedLocations/${Math.floor(Date.now() / 3600000)}/${Date.now()}`), {
+          latitude: currentLocation.coords.latitude,
+          longitude: currentLocation.coords.longitude,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     setTimeout(() => {
       setThankYouVisible(false);
-    }, 2500); 
+    }, 2500);
 
     setButtonDisabled(false);
   };
@@ -85,7 +85,7 @@ export default function LogLitter({ hasLocationPermission }) {
         <TouchableOpacity
           style={styles.outerModalView}
           activeOpacity={1}
-          onPress={() => setThankYouVisible(false)} 
+          onPress={() => setThankYouVisible(false)}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -105,11 +105,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 30,
     borderColor: "#647944",
-    width: width * 0.8, 
-    height: height * 0.08, 
+    width: width * 0.8,
+    height: height * 0.08,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: height * 0.02, 
+    marginTop: height * 0.02,
     elevation: 4,
   },
   button: {
@@ -121,13 +121,13 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontWeight: "bold",
-    fontSize: scaleText(20), 
+    fontSize: scaleText(20),
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: height * 0.02, 
+    marginTop: height * 0.02,
   },
   modalView: {
     margin: 20,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     padding: 35,
     alignItems: "center",
     elevation: 5,
-    width: width * 0.9, 
+    width: width * 0.9,
   },
   outerModalView: {
     flex: 1,
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalText: {
-    fontSize: scaleText(18), 
+    fontSize: scaleText(18),
     fontWeight: "bold",
     textAlign: "center",
     color: "#228B22",

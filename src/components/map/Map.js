@@ -51,7 +51,12 @@ export default function Map({ hasLocationPermission, setHasLocationPermission })
     onValue(query(ref(db, 'timestampedLocations'), orderByKey(), limitToLast(startHour)), (snapshot) => {
       const coordinatesArray = []
       snapshot.forEach((timeBlock) => {
-        coordinatesArray.push(timeBlock.val())
+        if (Array.isArray(timeBlock.val())) {
+          coordinatesArray.push(timeBlock.val())
+        } else {
+          coordinatesArray.push(Object.values(timeBlock.val()))
+        }
+
       })
       setCoordinates(coordinatesArray.flat())
     })
@@ -111,7 +116,7 @@ export default function Map({ hasLocationPermission, setHasLocationPermission })
           showsUserLocation={hasLocationPermission}
           showsMyLocationButton
         >
-          {heatmapDisplay ? <Heatmap points={coordinates} radius={20} opacity={0.5} /> : null}
+          {heatmapDisplay ? <Heatmap points={coordinates} radius={20} opacity={0.6} /> : null}
         </MapView>
       </View>
     </View >
