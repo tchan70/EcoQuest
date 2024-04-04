@@ -28,7 +28,7 @@ export default function CreateUser({ setIsUsernameCreated }) {
     const userRef = ref(db, `users/${username}/`);
     onValue(userRef, (snapshot) => {
       const data = snapshot.val();
-      !data ? setUserNameIsAvailable(true) : setUserNameIsAvailable(false);
+      !data ? setUsernameIsAvailable(true) : setUsernameIsAvailable(false);
     });
   }
 
