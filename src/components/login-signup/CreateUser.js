@@ -1,3 +1,10 @@
+import { useState, useContext } from "react";
+import { ref, onValue, set } from 'firebase/database';
+import { db } from "../../../firebaseConfig";
+import { FIREBASE_AUTH } from "../../../firebaseConfig";
+import { updateProfile } from "firebase/auth";
+import { LoggedInUser } from "../../../contexts/LoggedInUser"
+import { UserContext } from "../../../contexts/User";
 import React, { useState } from "react";
 import {
   Text,
@@ -7,18 +14,15 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-} from "react-native";
-import { ref, onValue, set } from "firebase/database";
-import { db } from "../../../firebaseConfig";
-import { FIREBASE_AUTH } from "../../../firebaseConfig";
-import { updateProfile } from "firebase/auth";
-
+} from "react-native";;
 const { width } = Dimensions.get("window"); 
 
 export default function CreateUser({ setIsUsernameCreated }) {
-  const auth = FIREBASE_AUTH;
-  const [username, setUsername] = useState(null);
-  const [usernameIsAvailable, setUsernameIsAvailable] = useState(false);
+    const { setLoggedInUser, loggedInUser } = useContext(LoggedInUser)
+    const auth = FIREBASE_AUTH;
+    const [username, setUsername] = useState(null)
+    const [usernameIsAvailable, setUserNameIsAvailable] = useState(false)
+    const { user, setUser } = useContext(UserContext)
 
   function handleOnChange(username) {
     setUsername(username);
@@ -29,22 +33,28 @@ export default function CreateUser({ setIsUsernameCreated }) {
     });
   }
 
-  function handleSubmit() {
-    if (usernameIsAvailable) {
-      updateProfile(auth.currentUser, {
-        displayName: username,
-      })
-        .then(() => {
-          setUsernameIsAvailable(false);
-          setIsUsernameCreated(true);
-          console.log("displayName updated");
-          set(ref(db, `users/${username}/points`), 0);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    function handleSubmit() {
+        if (usernameIsAvailable) {
+            updateProfile(auth.currentUser, {
+                displayName: username
+            })
+            .then(() => {
+                setUserNameIsAvailable(false);
+                setIsUsernameCreated(true);
+                console.log("displayName updated");
+                set(ref(db, `users/${username}/points`), 0)
+            })
+            .then(() => {
+                setLoggedInUser((currentUser) => {
+                    currentUser.displayName = username;
+                    return currentUser
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
     }
-  }
 
   return (
     <View style={styles.view}>
@@ -56,7 +66,7 @@ export default function CreateUser({ setIsUsernameCreated }) {
       <TextInput
         style={styles.input}
         value={username}
-        onChangeText={handleOnChange}
+        onChangeText={(text) => {handleOnChange(text)}}
         placeholder="Username"
         autoCapitalize="none"
       />

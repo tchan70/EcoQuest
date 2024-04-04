@@ -8,7 +8,7 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
-const MainTabNavigator = ({ hasLocationPermission, setHasLocationPermission }) => {
+const MainTabNavigator = ({ hasLocationPermission, setHasLocationPermission, setIsUsernameCreated }) => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -39,7 +39,9 @@ const MainTabNavigator = ({ hasLocationPermission, setHasLocationPermission }) =
       />
       <Tab.Screen
         name="User"
-        component={UserPage}
+        children={() => (
+          <UserPage setIsUsernameCreated={setIsUsernameCreated}/>
+      )}
         options={{
           tabBarIcon: ({ focused }) => (
             <FontAwesome name="user" size={24} color={focused ? "#87CEEB" : "white"} />
