@@ -40,8 +40,7 @@ export default function CreateUser({ setIsUsernameCreated }) {
         .then(() => {
           setUsernameIsAvailable(false);
           setIsUsernameCreated(true);
-          console.log("displayName updated");
-          set(ref(db, `users/${username}/points`), 0);
+          set(ref(db, `users/${username}`), {logs: "", points: 0})
         })
         .then(() => {
           setLoggedInUser((currentUser) => {
