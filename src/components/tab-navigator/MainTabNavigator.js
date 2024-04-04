@@ -8,7 +8,11 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
-const MainTabNavigator = ({ hasLocationPermission, setHasLocationPermission, setIsUsernameCreated }) => {
+const MainTabNavigator = ({
+  hasLocationPermission,
+  setHasLocationPermission,
+  setIsUsernameCreated,
+}) => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -33,18 +37,26 @@ const MainTabNavigator = ({ hasLocationPermission, setHasLocationPermission, set
         )}
         options={{
           tabBarIcon: ({ focused }) => (
-            <FontAwesome name="home" size={24} color={focused ? "#87CEEB" : "white"} />
+            <FontAwesome
+              name="home"
+              size={24}
+              color={focused ? "#87CEEB" : "white"}
+            />
           ),
         }}
       />
       <Tab.Screen
         name="User"
         children={() => (
-          <UserPage setIsUsernameCreated={setIsUsernameCreated}/>
-      )}
+          <UserPage setIsUsernameCreated={setIsUsernameCreated} />
+        )}
         options={{
           tabBarIcon: ({ focused }) => (
-            <FontAwesome name="user" size={24} color={focused ? "#87CEEB" : "white"} />
+            <FontAwesome
+              name="user"
+              size={24}
+              color={focused ? "#87CEEB" : "white"}
+            />
           ),
         }}
       />
@@ -53,7 +65,11 @@ const MainTabNavigator = ({ hasLocationPermission, setHasLocationPermission, set
         component={LeaderBoardPage}
         options={{
           tabBarIcon: ({ focused }) => (
-            <MaterialIcons name="leaderboard" size={24} color={focused ? "#87CEEB" : "white"} />
+            <MaterialIcons
+              name="leaderboard"
+              size={24}
+              color={focused ? "#87CEEB" : "white"}
+            />
           ),
         }}
       />
@@ -67,7 +83,11 @@ const MainTabNavigator = ({ hasLocationPermission, setHasLocationPermission, set
         )}
         options={{
           tabBarIcon: ({ focused }) => (
-            <FontAwesome name="map-marker" size={24} color={focused ? "#87CEEB" : "white"} />
+            <FontAwesome
+              name="map-marker"
+              size={24}
+              color={focused ? "#87CEEB" : "white"}
+            />
           ),
         }}
       />
