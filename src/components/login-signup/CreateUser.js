@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { ref, onValue, set } from 'firebase/database';
 import { db } from "../../../firebaseConfig";
 import { FIREBASE_AUTH } from "../../../firebaseConfig";
@@ -28,7 +28,7 @@ export default function CreateUser({ setIsUsernameCreated }) {
     const userRef = ref(db, `users/${username}/`);
     onValue(userRef, (snapshot) => {
       const data = snapshot.val();
-      !data ? setUsernameIsAvailable(true) : setUsernameIsAvailable(false);
+      !data ? setUserNameIsAvailable(true) : setUserNameIsAvailable(false);
     });
   }
 
