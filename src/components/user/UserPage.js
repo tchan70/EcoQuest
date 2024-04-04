@@ -27,9 +27,14 @@ export default function UserPage( {setIsUsernameCreated} ) {
 
   function handleDeleteUser() {
     deleteUser(userAuth)
-    .catch(err => alert(err))
+    .catch(err => {
+      setIsUsernameCreated(true)
+      alert(err)
+    })
     .then(() => {
       remove(ref(db, `users/${user.username}`))
+    })
+    .then(() => {
       setIsUsernameCreated(false)
     })
     .catch(err => {

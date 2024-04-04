@@ -49,6 +49,13 @@ export default function CreateUser({ setIsUsernameCreated }) {
                     return currentUser
                 })
             })
+            .then(() => {
+              setUser((currentUser) => {
+                currentUser.username = username;
+                currentUser.points = 0;
+                return currentUser
+              })
+            })
             .catch((error) => {
                 console.log(error);
             });
