@@ -1,11 +1,11 @@
-import React from "react"
+import React from "react";
 import { Image, StyleSheet, View, Dimensions } from "react-native";
 import LogLitter from "./LogLitter";
 import DailyQuest from "./DailyQuest";
 import * as Location from "expo-location";
 import { useFocusEffect } from "@react-navigation/native";
 
-const { width, height } = Dimensions.get("window"); 
+const { width, height } = Dimensions.get("window");
 
 export default function HomePage({
   hasLocationPermission,
@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   logo: {
-    width: width * 0.65, 
-    height: width * 0.65, 
+    width: width * 0.65,
+    height: width * 0.65,
     resizeMode: "contain",
-    marginBottom: height * 0.02, 
+    marginBottom: height * 0.02,
   },
 });

@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import { ref, onValue, set } from 'firebase/database';
+import { ref, onValue, set } from "firebase/database";
 import { db } from "../../../firebaseConfig";
 import { FIREBASE_AUTH } from "../../../firebaseConfig";
 import { updateProfile } from "firebase/auth";
-import { LoggedInUser } from "../../../contexts/LoggedInUser"
+import { LoggedInUser } from "../../../contexts/LoggedInUser";
 import { UserContext } from "../../../contexts/User";
 import {
   Text,
@@ -13,15 +13,15 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-} from "react-native";;
-const { width } = Dimensions.get("window"); 
+} from "react-native";
+const { width } = Dimensions.get("window");
 
 export default function CreateUser({ setIsUsernameCreated }) {
-    const { setLoggedInUser, loggedInUser } = useContext(LoggedInUser)
-    const auth = FIREBASE_AUTH;
-    const [username, setUsername] = useState(null)
-    const [usernameIsAvailable, setUsernameIsAvailable] = useState(false)
-    const { user, setUser } = useContext(UserContext)
+  const { setLoggedInUser } = useContext(LoggedInUser);
+  const auth = FIREBASE_AUTH;
+  const [username, setUsername] = useState(null);
+  const [usernameIsAvailable, setUsernameIsAvailable] = useState(false);
+  const { setUser } = useContext(UserContext);
 
   function handleOnChange(username) {
     setUsername(username);
@@ -32,36 +32,35 @@ export default function CreateUser({ setIsUsernameCreated }) {
     });
   }
 
-    function handleSubmit() {
-        if (usernameIsAvailable) {
-            updateProfile(auth.currentUser, {
-                displayName: username
-            })
-            .then(() => {
-                setUsernameIsAvailable(false);
-                setIsUsernameCreated(true);
-                console.log("displayName updated");
-                set(ref(db, `users/${username}`), {logs: "", points: 0})
-            })
-            .then(() => {
-                setLoggedInUser((currentUser) => {
-                    currentUser.displayName = username;
-                    return currentUser
-                })
-            })
-            .then(() => {
-              setUser((currentUser) => {
-                currentUser.username = username;
-                currentUser.points = 0;
-                return currentUser
-              })
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        }
+  function handleSubmit() {
+    if (usernameIsAvailable) {
+      updateProfile(auth.currentUser, {
+        displayName: username,
+      })
+        .then(() => {
+          setUsernameIsAvailable(false);
+          setIsUsernameCreated(true);
+          set(ref(db, `users/${username}`), {logs: "", points: 0})
+        })
+        .then(() => {
+          setLoggedInUser((currentUser) => {
+            currentUser.displayName = username;
+            return currentUser;
+          });
+        })
+        .then(() => {
+          setUser((currentUser) => {
+            currentUser.username = username;
+            currentUser.points = 0;
+            return currentUser;
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-    
+  }
+
   return (
     <View style={styles.view}>
       <Text style={styles.headerText}>Please Create A Username!</Text>
@@ -72,7 +71,9 @@ export default function CreateUser({ setIsUsernameCreated }) {
       <TextInput
         style={styles.input}
         value={username}
-        onChangeText={(text) => {handleOnChange(text)}}
+        onChangeText={(text) => {
+          handleOnChange(text);
+        }}
         placeholder="Username"
         autoCapitalize="none"
       />
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     borderWidth: 2,
-    borderColor: "#b0ca8c", 
+    borderColor: "#b0ca8c",
     backgroundColor: "#a8c47f",
     borderRadius: 30,
     padding: 10,

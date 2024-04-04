@@ -6,7 +6,7 @@ export const QuestContext = createContext();
 export const QuestsProvider = ({ children }) => {
   const [questCompleted, setQuestCompleted] = useState(false);
   const [completedQuestReward, setCompletedQuestReward] = useState(0);
-  const [rewardDistributed, setRewardDistributed] = useState(false)
+  const [rewardDistributed, setRewardDistributed] = useState(false);
   const [dailyQuest, setDailyQuest] = useState({
     task: "",
     count: 0,
@@ -20,10 +20,10 @@ export const QuestsProvider = ({ children }) => {
         setCompletedQuestReward(dailyQuest.rewardPoints);
         if (newCount <= 0) {
           completeQuest();
-          resolve(true); 
+          resolve(true);
           return { ...prevQuest, count: newCount, isCompleted: true };
         } else {
-          resolve(false); 
+          resolve(false);
           return { ...prevQuest, count: newCount };
         }
       });

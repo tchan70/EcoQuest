@@ -6,8 +6,8 @@ import { useGameContext } from "../../../hooks/useGameContext";
 const { width, height } = Dimensions.get("window");
 
 const scaleText = (size) => {
-  const scaleFactorWidth = width / 360; 
-  const scaleFactorHeight = height / 640; 
+  const scaleFactorWidth = width / 360;
+  const scaleFactorHeight = height / 640;
   return size * Math.min(scaleFactorWidth, scaleFactorHeight);
 };
 
@@ -60,8 +60,7 @@ export default function DailyQuest() {
       const newQuest = generateDailyQuest();
       await saveDailyQuest(newQuest);
       setDailyQuest(newQuest);
-    } 
-    else {
+    } else {
       setDailyQuest(JSON.parse(questString));
     }
   };
@@ -87,7 +86,7 @@ export default function DailyQuest() {
           <Text style={styles.questText}>Pieces left: {dailyQuest.count}</Text>
           <Text style={styles.timeLeftText}>Time left: {timeLeft}</Text>
           <Text style={styles.rewardText}>
-            Reward: 
+            Reward:
             <Text style={styles.time}> {dailyQuest.rewardPoints} </Text>
             points
           </Text>
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   headerText: {
-    fontSize: scaleText(22), 
+    fontSize: scaleText(22),
     fontWeight: "bold",
     color: "white",
     textAlign: "center",
@@ -122,26 +121,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   questText: {
-    fontSize: scaleText(18), 
+    fontSize: scaleText(18),
     fontWeight: "bold",
-    textAlign: 'center',
+    textAlign: "center",
     color: "#629c5f",
     marginBottom: 5,
   },
   timeLeftText: {
-    fontSize: scaleText(18), 
+    fontSize: scaleText(18),
     color: "#964B00",
   },
   rewardText: {
-    fontSize: scaleText(18), 
+    fontSize: scaleText(18),
     color: "#dcc35b",
     marginTop: 5,
-    textAlign: 'center',
+    textAlign: "center",
   },
   time: {
-    fontSize: scaleText(18), 
+    fontSize: scaleText(18),
     color: "#dcc35b",
     fontWeight: "bold",
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

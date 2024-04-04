@@ -35,10 +35,9 @@ export default function LoginPage({ navigation: { replace } }) {
   return (
     <View style={styles.view}>
       <Text style={styles.headerText}>
-        Welcome back to 
+        Welcome back to
         <Text style={styles.eco}> Eco</Text>
-        <Text style={styles.quest}>Quest</Text>
-        !
+        <Text style={styles.quest}>Quest</Text>!
       </Text>
       <Image
         source={require("../../../assets/EcoQuestLogo.png")}
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: "#41773e",
-    textAlign: 'center',
+    textAlign: "center",
     fontWeight: "bold",
     fontSize: 36,
     marginBottom: 20,
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     borderWidth: 2,
-    borderColor: "#b0ca8c", 
+    borderColor: "#b0ca8c",
     backgroundColor: "#a8c47f",
     borderRadius: 30,
     padding: 10,
@@ -124,8 +123,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   logo: {
-    width: width * 0.8, 
-    height: width * 0.4, 
+    width: width * 0.8,
+    height: width * 0.4,
     resizeMode: "contain",
     marginBottom: 20,
   },

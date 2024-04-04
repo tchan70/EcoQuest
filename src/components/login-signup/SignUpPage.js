@@ -9,14 +9,17 @@ import {
   Image,
 } from "react-native";
 import { FIREBASE_AUTH } from "../../../firebaseConfig";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
-const { width } = Dimensions.get("window"); // Get the device width for responsive design
+const { width } = Dimensions.get("window");
 
 export default function SignUpPage({ navigation: { replace } }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const auth = FIREBASE_AUTH;
 
   const handleSignUp = () => {
@@ -25,9 +28,9 @@ export default function SignUpPage({ navigation: { replace } }) {
         .then((userCredentials) => {
           sendEmailVerification(userCredentials.user);
           alert("Please check your email inbox to verify your account!");
-          replace('LogInVsSignUpPage');
+          replace("LogInVsSignUpPage");
         })
-        .catch(err => alert('Could not sign up! ' + err.message));
+        .catch((err) => alert("Could not sign up! " + err.message));
     } else {
       alert("Password and Confirm password do not match.");
     }
@@ -91,14 +94,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 24,
     marginBottom: 20,
-    textAlign: 'center', 
+    textAlign: "center",
   },
   input: {
     height: 50,
     borderColor: "#c8e49e",
     borderWidth: 2,
     borderRadius: 30,
-    width: width * 0.8, 
+    width: width * 0.8,
     padding: 10,
     marginVertical: 10,
     backgroundColor: "#fafaee",
@@ -106,11 +109,11 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
     justifyContent: "space-around",
-    width: width * 0.8, 
+    width: width * 0.8,
   },
   registerButton: {
     borderWidth: 2,
-    borderColor: "#b0ca8c", 
+    borderColor: "#b0ca8c",
     backgroundColor: "#a8c47f",
     borderRadius: 30,
     padding: 10,
@@ -129,8 +132,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   logo: {
-    width: width * 0.8, 
-    height: width * 0.4, 
+    width: width * 0.8,
+    height: width * 0.4,
     resizeMode: "contain",
     marginBottom: 20,
   },
