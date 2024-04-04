@@ -21,9 +21,8 @@ export default function DailyLeaderBoard() {
     const [isLoading, setIsLoading] = useState(true);
 
     const queriedUsers = query(
-        ref(db, `users/fakeusername/`),
-        orderByKey(),
-        limitToLast(10)
+        ref(db, `users/`),
+        orderByKey()
     );
 
     const cutoff = Date.now() - 24 * 60 * 60 * 1000
@@ -47,7 +46,8 @@ export default function DailyLeaderBoard() {
                     else return 1
                 }
             })
-            setTopUserList(orderedUsers);
+            const topOrderedUsers = orderedUsers.slice(0,10)
+            setTopUserList(topOrderedUsers);
             setIsLoading(false)
         });
     }, []);
