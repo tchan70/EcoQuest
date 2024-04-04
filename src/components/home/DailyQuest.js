@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useGameContext } from "../../../hooks/useGameContext";
+
+const { width, height } = Dimensions.get("window");
+
+const scaleText = (size) => {
+  const scaleFactorWidth = width / 360; 
+  const scaleFactorHeight = height / 640; 
+  return size * Math.min(scaleFactorWidth, scaleFactorHeight);
+};
 
 export default function DailyQuest() {
   const [timeLeft, setTimeLeft] = useState("");
@@ -90,7 +98,7 @@ export default function DailyQuest() {
 const styles = StyleSheet.create({
   card: {
     alignSelf: "stretch",
-    margin: 20,
+    margin: 15,
     borderRadius: 20,
     backgroundColor: "#e6ffe6",
     elevation: 4,
@@ -102,7 +110,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   headerText: {
-    fontSize: 22,
+    fontSize: scaleText(22), 
     fontWeight: "bold",
     color: "white",
     textAlign: "center",
@@ -112,22 +120,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   questText: {
-    fontSize: 18,
+    fontSize: scaleText(18), 
     fontWeight: "bold",
     textAlign: 'center',
     color: "#228B22",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   timeLeftText: {
-    fontSize: 18,
+    fontSize: scaleText(18), 
     color: "#964B00",
   },
   rewardText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: scaleText(18), 
     color: "#228B22",
-    alignContent: "center",
-    justifyContent: "center",
-    marginTop: 10,
+    marginTop: 5,
   },
 });

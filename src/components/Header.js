@@ -1,27 +1,26 @@
 import { useRef, useEffect } from "react";
 import { Text, StyleSheet, View, Animated, Dimensions } from "react-native";
 
-const { width } = Dimensions.get("window")
+const { width, height } = Dimensions.get("window");
 
 export default function Header() {
   const cloudPositions = Array.from(
-    { length: 6 },
+    { length: 7 },
     () => useRef(new Animated.Value(0)).current
   );
 
-  const getRandomTimingConfig = (startPosition) => ({
-    toValue: startPosition + 1000,
-    duration: 10000 + Math.random() * 10000 + Math.random() * 10000,
-    delay: Math.random() * 3000,
-    useNativeDriver: true,
-    isInteraction: false,
-  });
-
   const animateClouds = () => {
     cloudPositions.forEach((position, index) => {
-      position.setValue(-200 - index * 50);
+      const startPosition = -200 - index * 50; 
+      position.setValue(startPosition);
 
-      const config = getRandomTimingConfig(-200 - index * 50);
+      const config = {
+        toValue: startPosition + 1000, 
+        duration: 10000 + Math.random() * 10000,
+        delay: Math.random() * 3000,
+        useNativeDriver: true,
+        isInteraction: false,
+      };
       Animated.loop(Animated.timing(position, config)).start();
     });
   };
@@ -40,16 +39,15 @@ export default function Header() {
             styles.cloud,
             { transform: [{ translateX: position }] },
             {
-              width: 40 + Math.random() * 30,
-              height: 40 + Math.random() * 30,
-              top: 0 + Math.random() * 60,
+              width: 40 + Math.random() * 30 * (width / height),
+              height: 40 + Math.random() * 30 * (width / height),
+              top: 0 + Math.random() * (height * 0.1), 
             },
           ]}
         />
       ))}
       <Text style={styles.title}>
-        <Text style={styles.eco}>Eco</Text>
-        <Text style={styles.quest}>Quest</Text>
+        <Text style={styles.eco}>Eco</Text><Text style={styles.quest}>Quest</Text>
       </Text>
     </View>
   );
@@ -57,15 +55,15 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   header: {
-    paddingTop: 50,
-    paddingBottom: 20,
+    paddingTop: height * 0.035, 
+    paddingBottom: height * 0.02,
     backgroundColor: "#87CEEB",
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
   },
   title: {
-    fontSize: width * 0.075,
+    fontSize: height * 0.05, 
     fontWeight: "bold",
     letterSpacing: 1,
   },

@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Location from "expo-location";
 import { ref, set } from "firebase/database";
 import { db } from "../../../firebaseConfig";
 import { useGameContext } from "../../../hooks/useGameContext";
+
+const { width, height } = Dimensions.get("window");
+
+const scaleText = (size) => {
+  const scaleFactor = Math.min(width / 360, height / 640); 
+  return size * scaleFactor;
+};
 
 export default function LogLitter({ hasLocationPermission }) {
   const {
@@ -97,14 +104,13 @@ const styles = StyleSheet.create({
   buttonCommon: {
     borderWidth: 2,
     borderRadius: 30,
-    width: 250,
-    height: 60,
+    width: width * 0.8, 
+    height: height * 0.08, 
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: height * 0.02, 
     elevation: 4,
   },
-
   button: {
     backgroundColor: "#228B22",
   },
@@ -114,13 +120,13 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: scaleText(20), 
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: height * 0.02, 
   },
   modalView: {
     margin: 20,
@@ -129,6 +135,7 @@ const styles = StyleSheet.create({
     padding: 35,
     alignItems: "center",
     elevation: 5,
+    width: width * 0.9, 
   },
   outerModalView: {
     flex: 1,
@@ -136,7 +143,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalText: {
-    fontSize: 18,
+    fontSize: scaleText(18), 
     fontWeight: "bold",
     textAlign: "center",
     color: "#228B22",
