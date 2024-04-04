@@ -10,8 +10,6 @@ export default function LogInVsSignUpPage({ navigation: { replace } }) {
   function handleLoginClick() {
     replace("LoginPage");
   }
-  
-  const { width } = Dimensions.get('window')
 
   return (
     <View style={styles.view}>
@@ -19,10 +17,10 @@ export default function LogInVsSignUpPage({ navigation: { replace } }) {
         source={require("../../../assets/EcoQuestLogo.png")}
         style={styles.logo}
       />
-      <TouchableOpacity onPress={handleLoginClick} style={[styles.button]}>
+      <TouchableOpacity onPress={handleLoginClick} style={[styles.LoginButton]}>
         <Text style={styles.text}>LOG IN</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleSignUpClick} style={[styles.button]}>
+      <TouchableOpacity onPress={handleSignUpClick} style={[styles.SignUpButton]}>
         <Text style={styles.text}>SIGN UP</Text>
       </TouchableOpacity>
     </View>
@@ -36,10 +34,23 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       backgroundColor: "#F5F5DC",
     },
-    button: {
+    LoginButton: {
       borderWidth: 2,
       borderRadius: 30,
-      backgroundColor: "#228B22",
+      borderColor: "#b0ca8c", 
+      backgroundColor: "#a8c47f",
+      width: width * 0.8, 
+      minHeight: 60, 
+      alignItems: "center",
+      justifyContent: "center",
+      marginVertical: 10,
+      elevation: 4,
+    },
+    SignUpButton: {
+      borderWidth: 2,
+      borderRadius: 30,
+      borderColor: "#9ec8e4",
+      backgroundColor: "#93c2e1",
       width: width * 0.8, 
       minHeight: 60, 
       alignItems: "center",

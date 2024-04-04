@@ -54,7 +54,7 @@ export default function CreateUser({ setIsUsernameCreated }) {
             });
         }
     }
-
+    
   return (
     <View style={styles.view}>
       <Text style={styles.headerText}>Please Create A Username!</Text>
@@ -76,7 +76,7 @@ export default function CreateUser({ setIsUsernameCreated }) {
           <Text style={styles.availabilityText}>Username not available</Text>
         )
       ) : null}
-      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+      <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
     </View>
@@ -92,16 +92,16 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: "#228B22",
+    borderColor: "#c8e49e",
     borderWidth: 2,
     borderRadius: 30,
     width: width * 0.8,
     padding: 10,
     marginVertical: 10,
-    backgroundColor: "white",
+    backgroundColor: "#fafaee",
   },
   headerText: {
-    color: "#228B22",
+    color: "#41773e",
     fontWeight: "bold",
     fontSize: 24,
     marginBottom: 20,
@@ -110,13 +110,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
-  button: {
+  submitButton: {
     borderWidth: 2,
+    borderColor: "#b0ca8c", 
+    backgroundColor: "#a8c47f",
     borderRadius: 30,
-    backgroundColor: "#228B22",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    padding: 10,
     elevation: 4,
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: width * 0.8,
   },
   buttonText: {
     color: "white",

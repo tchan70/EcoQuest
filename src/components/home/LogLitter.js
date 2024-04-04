@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   buttonCommon: {
     borderWidth: 2,
     borderRadius: 30,
+    borderColor: "#647944",
     width: width * 0.8, 
     height: height * 0.08, 
     alignItems: "center",
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   button: {
-    backgroundColor: "#228B22",
+    backgroundColor: "#556b2f",
   },
   disabledButton: {
     backgroundColor: "#A9A9A9",

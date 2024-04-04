@@ -17,7 +17,7 @@ const MainTabNavigator = ({ hasLocationPermission, setHasLocationPermission, set
         tabBarActiveTintColor: "#87CEEB",
         tabBarInactiveTintColor: "white",
         tabBarStyle: {
-          backgroundColor: "#964B00",
+          backgroundColor: "#a15d29",
           paddingBottom: 5,
           height: 60,
         },

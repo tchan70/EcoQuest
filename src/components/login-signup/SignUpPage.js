@@ -68,10 +68,10 @@ export default function SignUpPage({ navigation: { replace } }) {
         secureTextEntry
       />
       <View style={styles.buttons}>
-        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+        <TouchableOpacity onPress={handleSignUp} style={styles.registerButton}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleGoBack} style={[styles.button, styles.buttonBack]}>
+        <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
           <Text style={styles.buttonText}>Go Back</Text>
         </TouchableOpacity>
       </View>
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5DC",
   },
   headerText: {
-    color: "#228B22",
+    color: "#a0be6e",
     fontWeight: "bold",
     fontSize: 24,
     marginBottom: 20,
@@ -95,36 +95,42 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: "#228B22",
+    borderColor: "#c8e49e",
     borderWidth: 2,
     borderRadius: 30,
     width: width * 0.8, 
     padding: 10,
     marginVertical: 10,
-    backgroundColor: "white",
+    backgroundColor: "#fafaee",
   },
   buttons: {
     flexDirection: "row",
     justifyContent: "space-around",
     width: width * 0.8, 
   },
-  button: {
+  registerButton: {
     borderWidth: 2,
+    borderColor: "#b0ca8c", 
+    backgroundColor: "#a8c47f",
     borderRadius: 30,
-    backgroundColor: "#228B22",
     padding: 10,
     elevation: 4,
   },
-  buttonBack: {
-    backgroundColor: "grey",
+  backButton: {
+    borderWidth: 2,
+    borderColor: "#989898",
+    borderRadius: 30,
+    backgroundColor: "#8c8c8c",
+    padding: 10,
+    elevation: 4,
   },
   buttonText: {
     color: "white",
     fontWeight: "bold",
   },
   logo: {
-    width: width * 0.8, // Adjust logo size for balance
-    height: width * 0.4, // Maintain aspect ratio
+    width: width * 0.8, 
+    height: width * 0.4, 
     resizeMode: "contain",
     marginBottom: 20,
   },

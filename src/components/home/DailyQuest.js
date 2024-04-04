@@ -87,7 +87,9 @@ export default function DailyQuest() {
           <Text style={styles.questText}>Pieces left: {dailyQuest.count}</Text>
           <Text style={styles.timeLeftText}>Time left: {timeLeft}</Text>
           <Text style={styles.rewardText}>
-            Reward: {dailyQuest.rewardPoints} points
+            Reward: 
+            <Text style={styles.time}> {dailyQuest.rewardPoints} </Text>
+            points
           </Text>
         </View>
       )}
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   questHeader: {
-    backgroundColor: "#228B22",
+    backgroundColor: "#629c5f",
     paddingVertical: 10,
     paddingHorizontal: 15,
   },
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
     fontSize: scaleText(18), 
     fontWeight: "bold",
     textAlign: 'center',
-    color: "#228B22",
+    color: "#629c5f",
     marginBottom: 5,
   },
   timeLeftText: {
@@ -132,7 +134,14 @@ const styles = StyleSheet.create({
   },
   rewardText: {
     fontSize: scaleText(18), 
-    color: "#228B22",
+    color: "#dcc35b",
     marginTop: 5,
+    textAlign: 'center',
+  },
+  time: {
+    fontSize: scaleText(18), 
+    color: "#dcc35b",
+    fontWeight: "bold",
+    textAlign: 'center',
   },
 });

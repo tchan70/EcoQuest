@@ -68,10 +68,10 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   eco: {
-    color: "#228B22",
+    color: "#58a254",
   },
   quest: {
-    color: "#3399ff",
+    color: "#4ea4ff",
   },
   cloud: {
     position: "absolute",

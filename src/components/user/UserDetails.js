@@ -28,12 +28,12 @@ const styles = StyleSheet.create({
       elevation: 5,
     },
     text: {
-      color: "#228B22", 
+      color: "#84966c", 
       fontWeight: "bold",
       fontSize: 30, 
     },
     points: {
-      color: "#8B4513", 
+      color: "#cc9767", 
       fontWeight: "bold",
       fontSize: 25,
     },

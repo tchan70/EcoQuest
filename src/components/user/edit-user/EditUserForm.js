@@ -60,7 +60,7 @@ export default function EditUserForm({setEditUserModalVisible}) {
 
   return (
     <View style={styles.formContainer}>
-      <Text>Change username</Text>
+      <Text style={styles.changeUsername}>Change username</Text>
       <TextInput
         style={styles.input}
         onChangeText={(text) => {handleOnChange(text)}}
@@ -87,27 +87,35 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5DC",
   },
   input: {
+    height: 50,
+    borderColor: "#ddddcc",
+    borderWidth: 2,
+    borderRadius: 30,
     width: 200,
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
     padding: 10,
-    backgroundColor: "white"
+    marginVertical: 10,
+    backgroundColor: "#fafaee",
   },
   submitButton: {
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: '#28a428',  
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-    width: '50%',
-    elevation: 3,
+      borderRadius: 20,
+      width: '40%',
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      backgroundColor: '#8fa76c', 
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 15,
+      marginBottom: -20,
+      elevation: 3,
   },
   text: {
     color: "#fff",
     fontWeight: 'bold',
     fontSize: 20,
+  },
+  changeUsername: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: "#808080"
   }
 })

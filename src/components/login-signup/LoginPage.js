@@ -35,7 +35,8 @@ export default function LoginPage({ navigation: { replace } }) {
   return (
     <View style={styles.view}>
       <Text style={styles.headerText}>
-        Welcome back to Eco
+        Welcome back to 
+        <Text style={styles.eco}> Eco</Text>
         <Text style={styles.quest}>Quest</Text>
         !
       </Text>
@@ -59,12 +60,12 @@ export default function LoginPage({ navigation: { replace } }) {
         secureTextEntry
       />
       <View style={styles.buttons}>
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
+        <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleGoBack}
-          style={[styles.button, styles.buttonBack]}
+          style={[styles.button, styles.backButton]}
         >
           <Text style={styles.buttonText}>Go Back</Text>
         </TouchableOpacity>
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5DC",
   },
   headerText: {
-    color: "#228B22",
+    color: "#41773e",
     textAlign: 'center',
     fontWeight: "bold",
     fontSize: 36,
@@ -89,28 +90,34 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: "#228B22",
+    borderColor: "#c8e49e",
     borderWidth: 2,
     borderRadius: 30,
     width: width * 0.8,
     padding: 10,
     marginVertical: 10,
-    backgroundColor: "white",
+    backgroundColor: "#fafaee",
   },
   buttons: {
     flexDirection: "row",
     justifyContent: "space-around",
     width: width * 0.8,
   },
-  button: {
+  loginButton: {
     borderWidth: 2,
+    borderColor: "#b0ca8c", 
+    backgroundColor: "#a8c47f",
     borderRadius: 30,
-    backgroundColor: "#228B22",
     padding: 10,
     elevation: 4,
   },
-  buttonBack: {
-    backgroundColor: "grey",
+  backButton: {
+    borderWidth: 2,
+    borderColor: "#989898",
+    borderRadius: 30,
+    backgroundColor: "#8c8c8c",
+    padding: 10,
+    elevation: 4,
   },
   buttonText: {
     color: "white",
@@ -122,7 +129,10 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginBottom: 20,
   },
+  eco: {
+    color: "#58a254",
+  },
   quest: {
-    color: "#3399ff",
-  }
+    color: "#4ea4ff",
+  },
 });
