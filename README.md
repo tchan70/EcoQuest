@@ -55,5 +55,4 @@ Get EcoQuest up and running on your local machine for development and testing pu
 - Navigation: React Navigation for routing and navigation.
 - Backend: Firebase Realtime Database for storing data; Firebase Authentication for user management; 
 - Deployment: Expo Go for testing and deployment.
-```
-## Minimum Requirements
+
