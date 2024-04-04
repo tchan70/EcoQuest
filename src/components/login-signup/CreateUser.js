@@ -5,7 +5,6 @@ import { FIREBASE_AUTH } from "../../../firebaseConfig";
 import { updateProfile } from "firebase/auth";
 import { LoggedInUser } from "../../../contexts/LoggedInUser"
 import { UserContext } from "../../../contexts/User";
-import React, { useState } from "react";
 import {
   Text,
   TextInput,
@@ -21,7 +20,7 @@ export default function CreateUser({ setIsUsernameCreated }) {
     const { setLoggedInUser, loggedInUser } = useContext(LoggedInUser)
     const auth = FIREBASE_AUTH;
     const [username, setUsername] = useState(null)
-    const [usernameIsAvailable, setUserNameIsAvailable] = useState(false)
+    const [usernameIsAvailable, setUsernameIsAvailable] = useState(false)
     const { user, setUser } = useContext(UserContext)
 
   function handleOnChange(username) {
@@ -39,7 +38,7 @@ export default function CreateUser({ setIsUsernameCreated }) {
                 displayName: username
             })
             .then(() => {
-                setUserNameIsAvailable(false);
+                setUsernameIsAvailable(false);
                 setIsUsernameCreated(true);
                 console.log("displayName updated");
                 set(ref(db, `users/${username}/points`), 0)
