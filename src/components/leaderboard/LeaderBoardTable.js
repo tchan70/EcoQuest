@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import { db } from "../../../firebaseConfig";
 import {
     ref,
@@ -8,6 +8,13 @@ import {
     limitToLast,
 } from "firebase/database";
 import { useEffect, useState } from "react";
+
+const { width, height } = Dimensions.get("window")
+
+const scaleText = (size) => {
+    const scaleFactor = Math.min(width / 360, height / 640); 
+    return size * scaleFactor;
+};
 
 export default function LeaderBoardTable() {
     const [topUsersList, setTopUserList] = useState([]);
@@ -31,7 +38,7 @@ export default function LeaderBoardTable() {
 
     return (
         <View style={styles.view}>
-            <View style={styles.rankList}>
+            <ScrollView style={styles.rankList}>
                 {isLoading ? (
                     <Text style={styles.loading}>Leaderboard loading...</Text>
                 ) : (
@@ -41,100 +48,97 @@ export default function LeaderBoardTable() {
                             <Text style={styles.userHeader}>User</Text>
                             <Text style={styles.pointsHeader}>Points</Text>
                         </View>
-                        {topUsersList.map((item, index) => {
-                            return (
-                                <View
-                                    style={styles.leaderboardItem}
-                                    key={item.username}
-                                >
-                                    <Text style={styles.ranking}>
-                                        {index + 1}{" "}
-                                    </Text>
-                                    <Text style={styles.user}>
-                                        {item.username}{" "}
-                                    </Text>
-                                    <Text style={styles.points}>
-                                        {item.points}
-                                    </Text>
-                                </View>
-                            );
-                        })}
+                        {topUsersList.map((item, index) => (
+                            <View
+                                style={styles.leaderboardItem}
+                                key={item.username}>
+                                <Text style={styles.ranking}>
+                                    {index + 1}
+                                </Text>
+                                <Text style={styles.user}>
+                                    {item.username}
+                                </Text>
+                                <Text style={styles.points}>
+                                    {item.points}
+                                </Text>
+                            </View>
+                        ))}
                     </>
                 )}
-            </View>
+            </ScrollView>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     view: {
-        width: 380,
-        height: 430,
+        width: '100%',
+        maxWidth: 380,
+        height: height * 0.55, 
         backgroundColor: "transparent",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "2%",
+        marginTop: 20,
     },
     rankList: {
-        flex: 1,
-        justifyContent: "center",
-        marginBottom: 0,
-        width: "85%",
+        width: '95%',
     },
     loading: {
-        color: "black",
+        color: "#228B22",
         fontWeight: "bold",
-        fontSize: 25,
-        textAlign: "center"
-    },
-    user: {
-        color: "black",
-        fontWeight: "bold",
-        fontSize: 20,
-        width: "70%",
+        fontSize: scaleText(20), 
     },
     ranking: {
         color: "black",
         fontWeight: "bold",
-        fontSize: 20,
-        textAlign: "center",
-        width: "15%",
+        fontSize: scaleText(24), 
+        width: "10%", 
+        textAlign: "center", 
     },
-
-    points: {
-        color: "black",
-        fontWeight: "bold",
-        fontSize: 20,
-        textAlign: "right",
-        width: "15%",
-        paddingRight: 10,
+    leaderboardHeader: {
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        backgroundColor: "#228B22",
+        padding: 10,
+        borderRadius: 10,
+        marginTop: 10, 
     },
-    pointsHeader: {
-        color: "black",
-        fontWeight: "bold",
-        fontSize: 20,
-        textAlign: "right",
-        width: "30%",
-        paddingRight: 10,
+    leaderboardItem: {
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        backgroundColor: "#e6ffe6",
+        padding: 10,
+        marginVertical: 2,
+        borderRadius: 10,
     },
     userHeader: {
         color: "black",
         fontWeight: "bold",
-        fontSize: 20,
-        width: "56%",
+        textAlign: "left", 
+        fontSize: scaleText(20), 
+        width: "50%", 
     },
-    leaderboardHeader: {
-        flex: 1,
-        flexWrap: "wrap",
-        justifyContent: "space-evenly",
-        backgroundColor: "#228B22",
-        margin: 5,
+    pointsHeader: {
+        color: "black",
+        fontWeight: "bold",
+        fontSize: scaleText(20), 
+        width: "40%", 
+        textAlign: "right", 
+        paddingRight: 10, 
     },
-    leaderboardItem: {
-        flex: 1,
-        flexWrap: "wrap",
-        justifyContent: "space-evenly",
-        backgroundColor: "#e6ffe6",
-        margin: 3,
+    user: {
+        color: "black",
+        fontWeight: "bold",
+        fontSize: scaleText(22), 
+        width: "50%", 
+        textAlign: "left", 
+    },
+    points: {
+        color: "black",
+        fontWeight: "bold",
+        fontSize: scaleText(22), 
+        width: "40%", 
+        textAlign: "right", 
+        paddingRight: 10, 
     },
 });

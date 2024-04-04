@@ -13,7 +13,7 @@ import { db } from "../../../firebaseConfig";
 import { FIREBASE_AUTH } from "../../../firebaseConfig";
 import { updateProfile } from "firebase/auth";
 
-const { width } = Dimensions.get("window"); // Get the device width for responsive design
+const { width } = Dimensions.get("window"); 
 
 export default function CreateUser({ setIsUsernameCreated }) {
   const auth = FIREBASE_AUTH;
