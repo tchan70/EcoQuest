@@ -1,20 +1,10 @@
-import { useContext } from 'react';
-import { UserContext } from '../contexts/User';
-import { QuestContext } from '../contexts/Quests';
+import { useContext } from "react";
+import { UserContext } from "../contexts/User";
+import { QuestContext } from "../contexts/Quests";
 
 export const useGameContext = () => {
   const { user, updateUserPoints } = useContext(UserContext);
-  const { dailyQuest, setDailyQuest, decrementLitterCount, completeQuest, saveDailyQuest, generateDailyQuest, questCompleted, formatDate, completedQuestReward } = useContext(QuestContext);
-
-  const enhancedCompleteQuest = () => {
-    updateUserPoints(dailyQuest.rewardPoints); 
-    completeQuest(); 
-  };
-
-  return {
-    user,
-    updateUserPoints,
-    enhancedCompleteQuest,
+  const {
     dailyQuest,
     setDailyQuest,
     decrementLitterCount,
@@ -23,6 +13,24 @@ export const useGameContext = () => {
     generateDailyQuest,
     questCompleted,
     formatDate,
-    completedQuestReward
+    completedQuestReward,
+    rewardDistributed,
+    setRewardDistributed,
+  } = useContext(QuestContext);
+
+  return {
+    user,
+    updateUserPoints,
+    dailyQuest,
+    setDailyQuest,
+    decrementLitterCount,
+    completeQuest,
+    saveDailyQuest,
+    generateDailyQuest,
+    questCompleted,
+    formatDate,
+    completedQuestReward,
+    rewardDistributed,
+    setRewardDistributed,
   };
 };

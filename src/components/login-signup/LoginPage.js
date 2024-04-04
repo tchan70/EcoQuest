@@ -1,75 +1,128 @@
-import { StyleSheet, Text, TextInput, Button, View } from "react-native";
-import { useContext, useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  Image,
+} from "react-native";
+import React, { useContext, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../../firebaseConfig";
 import { LoggedInUser } from "../../../contexts/LoggedInUser";
 
+const { width } = Dimensions.get("window");
 
 export default function LoginPage({ navigation: { replace } }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const auth = FIREBASE_AUTH;
+  const { setLoggedInUser } = useContext(LoggedInUser);
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const auth = FIREBASE_AUTH;
-    const { setLoggedInUser } = useContext(LoggedInUser);
+  function handleLogin() {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        setLoggedInUser(auth.currentUser);
+      })
+      .catch((err) => alert("Could not login! " + err.message));
+  }
 
-    function handleLogin() {
-        signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-            setLoggedInUser(auth.currentUser)
-        })
-        .catch(err => alert('Could not login! ' + err.message))
-    }
+  function handleGoBack() {
+    replace("LogInVsSignUpPage");
+  }
 
-    function handleGoBack() {
-        replace("LogInVsSignUpPage")
-    }
-
-    return (
-        <View
-            style={styles.view}>
-                <Text style={styles.text}>LOGIN FORM</Text>
-                <TextInput
-                    style={styles.input}
-                    value={email}
-                    onChangeText={(text) => setEmail(text)}
-                    placeholder="Email"
-                    autoCapitalize="none"
-                />
-                <TextInput
-                    style={styles.input}
-                    value={password}
-                    onChangeText={(text) => setPassword(text)}
-                    placeholder="Password"
-                    autoCapitalize="none"
-                    secureTextEntry
-                />
-                <View style={styles.buttons}>
-                    <Button title="Login" onPress={handleLogin}/>
-                    <Button color={'grey'} title="Go Back" onPress={handleGoBack}/>
-                </View>
-        </View>
-    );
+  return (
+    <View style={styles.view}>
+      <Text style={styles.headerText}>
+        Welcome back to Eco
+        <Text style={styles.quest}>Quest</Text>
+        !
+      </Text>
+      <Image
+        source={require("../../../assets/EcoQuestLogo.png")}
+        style={styles.logo}
+      />
+      <TextInput
+        style={styles.input}
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Email"
+        autoCapitalize="none"
+      />
+      <TextInput
+        style={styles.input}
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Password"
+        autoCapitalize="none"
+        secureTextEntry
+      />
+      <View style={styles.buttons}>
+        <TouchableOpacity onPress={handleLogin} style={styles.button}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleGoBack}
+          style={[styles.button, styles.buttonBack]}
+        >
+          <Text style={styles.buttonText}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    view: {
-        width: 360,
-        height: 300,
-        alignSelf: 'center',
-        alignItems: 'center',
-        justifyContent: "center",
-    },
-    input: {
-        height: 40,
-        borderColor: 'black',
-        borderWidth: 1,
-        borderRadius: 10,
-        width: "100%",
-        padding: 10,
-        margin: 10
-    },
-    buttons: {
-        flexDirection: "row",
-        gap: 15
-    }
+  view: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#F5F5DC",
+  },
+  headerText: {
+    color: "#228B22",
+    textAlign: 'center',
+    fontWeight: "bold",
+    fontSize: 36,
+    marginBottom: 20,
+  },
+  input: {
+    height: 50,
+    borderColor: "#228B22",
+    borderWidth: 2,
+    borderRadius: 30,
+    width: width * 0.8,
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: "white",
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: width * 0.8,
+  },
+  button: {
+    borderWidth: 2,
+    borderRadius: 30,
+    backgroundColor: "#228B22",
+    padding: 10,
+    elevation: 4,
+  },
+  buttonBack: {
+    backgroundColor: "grey",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  logo: {
+    width: width * 0.8, 
+    height: width * 0.4, 
+    resizeMode: "contain",
+    marginBottom: 20,
+  },
+  quest: {
+    color: "#3399ff",
+  }
 });

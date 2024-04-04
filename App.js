@@ -1,4 +1,4 @@
-import { StyleSheet,} from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import Header from "./src/components/Header.js";
 import LoginStack from "./src/components/login-signup/LoginStack.js";
@@ -13,12 +13,12 @@ import { LoggedInUser }from "./contexts/LoggedInUser.js"
 import { db } from "./firebaseConfig.js";
 import { get, ref, set } from "firebase/database";
 
-
 export default function App() {
 
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
   const auth = FIREBASE_AUTH;
   const [isUsernameCreated, setIsUsernameCreated] = useState(false);
+
   const [loggedInUser, setLoggedInUser] = useState(auth.currentUser)
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function App() {
         hasLocationPermission={hasLocationPermission} 
         setHasLocationPermission={setHasLocationPermission} 
       />
-    )
+    );
   }
 
   return (

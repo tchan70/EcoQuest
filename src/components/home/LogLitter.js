@@ -1,79 +1,101 @@
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { db } from "../../../firebaseConfig";
-import { ref, set } from "firebase/database";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Location from "expo-location";
+import { ref, set } from "firebase/database";
+import { db } from "../../../firebaseConfig";
 import { useGameContext } from "../../../hooks/useGameContext";
 
+const { width, height } = Dimensions.get("window");
+
+const scaleText = (size) => {
+  const scaleFactor = Math.min(width / 360, height / 640); 
+  return size * scaleFactor;
+};
+
 export default function LogLitter({ hasLocationPermission }) {
-  const { updateUserPoints, decrementLitterCount } = useGameContext();
+  const {
+    updateUserPoints, decrementLitterCount,
+    completedQuestReward, rewardDistributed, setRewardDistributed
+  } = useGameContext();
+  const [updateQueue, setUpdateQueue] = useState([]);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [thankYouVisible, setThankYouVisible] = useState(false);
+
+  useEffect(() => {
+    if (updateQueue.length > 0) {
+      const nextUpdate = updateQueue[0];
+      nextUpdate();
+      setUpdateQueue(currentQueue => currentQueue.slice(1));
+    }
+  }, [updateQueue]);
+
+  const addToQueue = (updateFunction) => {
+    setUpdateQueue(currentQueue => [...currentQueue, updateFunction]);
+  };
 
   const postLitterLocation = async () => {
     setThankYouVisible(true);
     setButtonDisabled(true);
-    decrementLitterCount();
+
+    const questJustCompleted = await decrementLitterCount();
+    addToQueue(() => updateUserPoints(1));
+
+    if (questJustCompleted && !rewardDistributed) {
+        addToQueue(() => {
+            updateUserPoints(completedQuestReward + 1);
+            setRewardDistributed(true);
+        });
+    }
+
+    if (hasLocationPermission) {
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        try {
+            await set(ref(db, `timestampedLocations/${Math.floor(Date.now()/3600000)}/`), {
+                latitude: currentLocation.coords.latitude,
+                longitude: currentLocation.coords.longitude,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     setTimeout(() => {
       setThankYouVisible(false);
-      setButtonDisabled(false);
-    }, 2500);
+    }, 2500); 
 
-    if (hasLocationPermission) {
-      let currentLocation = await Location.getCurrentPositionAsync({});
-      try {
-        await set(ref(db, `locations/${Date.now()}/`), {
-          latitude: currentLocation.coords.latitude,
-          longitude: currentLocation.coords.longitude,
-        });
-        updateUserPoints(1); 
-      } 
-      catch (error) {
-        console.log(error);
-      }
-    }
-  }
+    setButtonDisabled(false);
+  };
 
   return (
     <View>
       <TouchableOpacity
         onPress={postLitterLocation}
+        disabled={buttonDisabled}
         style={[
           styles.buttonCommon,
           buttonDisabled ? styles.disabledButton : styles.button,
-        ]}
-        disabled={buttonDisabled}
-      >
+        ]}>
         <Text style={styles.text}>LOG LITTER</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.outerModalView}
-        activeOpacity={1}
-        onPress={() => setThankYouVisible(false)}
-      >
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={thankYouVisible}
-          onRequestClose={() => setThankYouVisible(false)}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={thankYouVisible}
+        onRequestClose={() => setThankYouVisible(false)}>
+        <TouchableOpacity
+          style={styles.outerModalView}
+          activeOpacity={1}
+          onPress={() => setThankYouVisible(false)} 
         >
-          <TouchableOpacity
-            style={styles.outerModalView}
-            activeOpacity={1}
-            onPress={() => setThankYouVisible(false)}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>
-                  You've earned a point! Thank you for keeping our earth clean!
-                  :)
-                </Text>
-              </View>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                You've earned a point! Thank you for keeping our earth clean! :)
+              </Text>
             </View>
-          </TouchableOpacity>
-        </Modal>
-      </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 }
@@ -82,14 +104,13 @@ const styles = StyleSheet.create({
   buttonCommon: {
     borderWidth: 2,
     borderRadius: 30,
-    width: 250,
-    height: 60,
+    width: width * 0.8, 
+    height: height * 0.08, 
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: height * 0.02, 
     elevation: 4,
   },
-
   button: {
     backgroundColor: "#228B22",
   },
@@ -99,13 +120,13 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: scaleText(20), 
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: height * 0.02, 
   },
   modalView: {
     margin: 20,
@@ -113,14 +134,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
     elevation: 5,
+    width: width * 0.9, 
   },
   outerModalView: {
     flex: 1,
@@ -128,7 +143,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalText: {
-    fontSize: 18,
+    fontSize: scaleText(18), 
     fontWeight: "bold",
     textAlign: "center",
     color: "#228B22",

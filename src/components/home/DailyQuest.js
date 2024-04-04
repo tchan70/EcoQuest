@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useGameContext } from "../../../hooks/useGameContext";
 
+const { width, height } = Dimensions.get("window");
+
+const scaleText = (size) => {
+  const scaleFactorWidth = width / 360; 
+  const scaleFactorHeight = height / 640; 
+  return size * Math.min(scaleFactorWidth, scaleFactorHeight);
+};
+
 export default function DailyQuest() {
   const [timeLeft, setTimeLeft] = useState("");
-  const [pointsAwarded, setPointsAwarded] = useState(false)
   const {
     dailyQuest,
     setDailyQuest,
@@ -14,8 +21,7 @@ export default function DailyQuest() {
     questCompleted,
     formatDate,
     completedQuestReward,
-    enhancedCompleteQuest,
-  } = useGameContext()
+  } = useGameContext();
 
   useEffect(() => {
     getDailyQuest();
@@ -27,28 +33,23 @@ export default function DailyQuest() {
       setTimeLeft(newTimeLeft);
     }, 1000);
     return () => clearInterval(timer);
-  }, []); 
-
-  useEffect(() => {
-    if (questCompleted && !pointsAwarded) {
-      enhancedCompleteQuest();
-      setPointsAwarded(true);
-    }
-    if (!questCompleted && pointsAwarded) {
-      setPointsAwarded(false);
-    }
-    if (timeLeft === "0h 0m 0s") {
-      getDailyQuest(true); 
-    }
-  }, [questCompleted, enhancedCompleteQuest, timeLeft]);
+  }, []);
 
   const calculateTimeLeft = () => {
     const now = new Date();
-    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+    const endOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
     const diff = endOfDay - now;
-    const hours = Math.floor(diff / (1000 * 60 * 60) % 24);
-    const minutes = Math.floor(diff / (1000 * 60) % 60);
-    const seconds = Math.floor(diff / 1000 % 60);
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
     return `${hours}h ${minutes}m ${seconds}s`;
   };
 
@@ -97,7 +98,7 @@ export default function DailyQuest() {
 const styles = StyleSheet.create({
   card: {
     alignSelf: "stretch",
-    margin: 20,
+    margin: 15,
     borderRadius: 20,
     backgroundColor: "#e6ffe6",
     elevation: 4,
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   headerText: {
-    fontSize: 22,
+    fontSize: scaleText(22), 
     fontWeight: "bold",
     color: "white",
     textAlign: "center",
@@ -119,21 +120,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   questText: {
-    fontSize: 18,
+    fontSize: scaleText(18), 
     fontWeight: "bold",
+    textAlign: 'center',
     color: "#228B22",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   timeLeftText: {
-    fontSize: 18,
+    fontSize: scaleText(18), 
     color: "#964B00",
   },
   rewardText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: scaleText(18), 
     color: "#228B22",
-    alignContent: "center",
-    justifyContent: "center",
-    marginTop: 10,
+    marginTop: 5,
   },
 });

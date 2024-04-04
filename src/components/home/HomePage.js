@@ -1,13 +1,11 @@
-import {
-  Image,
-  StyleSheet,
-  View,
-} from "react-native";
+import React from "react"
+import { Image, StyleSheet, View, Dimensions } from "react-native";
 import LogLitter from "./LogLitter";
 import DailyQuest from "./DailyQuest";
 import * as Location from "expo-location";
 import { useFocusEffect } from "@react-navigation/native";
-import React from "react";
+
+const { width, height } = Dimensions.get("window"); 
 
 export default function HomePage({
   hasLocationPermission,
@@ -18,10 +16,8 @@ export default function HomePage({
       (async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
-          console.log("Permission to access location was denied");
           return;
         } else {
-          console.log("Permission to access location authorized");
           setHasLocationPermission(true);
         }
       })();
@@ -52,12 +48,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   logo: {
-    width: 300,
-    height: 300,
+    width: width * 0.65, 
+    height: width * 0.65, 
     resizeMode: "contain",
-    marginBottom: 20,
-  },
-  logLitter: {
-    marginTop: 20,
+    marginBottom: height * 0.02, 
   },
 });
