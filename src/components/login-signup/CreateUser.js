@@ -1,11 +1,10 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { ref, onValue, set } from 'firebase/database';
 import { db } from "../../../firebaseConfig";
 import { FIREBASE_AUTH } from "../../../firebaseConfig";
 import { updateProfile } from "firebase/auth";
 import { LoggedInUser } from "../../../contexts/LoggedInUser"
 import { UserContext } from "../../../contexts/User";
-import React, { useState } from "react";
 import {
   Text,
   TextInput,
