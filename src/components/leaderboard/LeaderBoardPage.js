@@ -1,8 +1,15 @@
-import { StyleSheet, Text, View } from "react-native"
+import { Dimensions, StyleSheet, Text, View } from "react-native"
 import LeaderBoardTable from "./LeaderBoardTable"
 import DailyLeaderBoard from "./DailyLeaderBoard"
 import LeaderBoardSwitch from "./LeaderBoardSwitch"
 import { useState } from "react"
+
+const { width, height } = Dimensions.get("window")
+
+const scaleText = (size) => {
+    const scaleFactor = Math.min(width / 360, height / 640); 
+    return size * scaleFactor;
+};
 
 export default function LeaderBoard() {
     const [isDailyLeaderboard, setIsDailyLeaderboard] = useState(false) 
@@ -17,12 +24,16 @@ export default function LeaderBoard() {
 
 const styles = StyleSheet.create({
     view: {
+        flex: 1,
         alignItems: 'center',
-        backgroundColor: "#F5F5DC"
+        justifyContent: 'flex-start',
+        backgroundColor: "#F5F5DC",
+        padding: 20,
     },
     text: {
         fontWeight: "bold",
-        fontSize: 22,
-        marginTop: 15
-    }
+        fontSize: scaleText(22), 
+        color: '#228B22',
+        textAlign: 'center', 
+    },
 })
