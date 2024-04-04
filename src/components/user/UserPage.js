@@ -1,27 +1,61 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View, Modal, TouchableOpacity} from "react-native";
 import UserDetails from "./UserDetails";
 import EditUserForm from "./edit-user/EditUserForm.js";
 import { UserContext } from "../../../contexts/User";
 import { FIREBASE_AUTH } from "../../../firebaseConfig";
+import { db } from "../../../firebaseConfig";
+import { ref, remove } from "firebase/database";
+import { getAuth, deleteUser } from "firebase/auth";
+import { LoggedInUser } from "../../../contexts/LoggedInUser.js";
 
-export default function UserPage() {
-  const { user } = useContext(UserContext);
+
+export default function UserPage( {setIsUsernameCreated} ) {
+
+
+  const auth = getAuth();
+  const userAuth = auth.currentUser;
+
+  const { user, setUser } = useContext(UserContext);
+  const { loggedInUser, setLoggedInUser } = useContext(LoggedInUser)
   const [editUserModalVisible, setEditUserModalVisible] = useState(false);
   
   function handleLogOut() {
      FIREBASE_AUTH.signOut()
   }
 
+
+  function handleDeleteUser() {
+    deleteUser(userAuth)
+    .catch(err => alert(err))
+    .then(() => {
+      remove(ref(db, `users/${user.username}`))
+      setIsUsernameCreated(false)
+    })
+    .catch(err => {
+      setIsUsernameCreated(true)
+      alert("error occured: "+ err.msg)
+    })
+  }
+  
+ 
   return (
     <View style={styles.view}>
-      <UserDetails user={user} />
+      <UserDetails />
+      <View style={styles.buttons}> 
       <TouchableOpacity
         onPress={() => setEditUserModalVisible(true)}
         style={styles.editUserButton}
       >
         <Text style={styles.text}>Edit User</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        onPress={handleDeleteUser}
+        style={styles.deleteButton}
+      >
+        <Text style={styles.text}>Delete User</Text>
+      </TouchableOpacity>
+      </View>
       <TouchableOpacity
         onPress={handleLogOut}
         style={styles.logOutButton}
@@ -38,7 +72,7 @@ export default function UserPage() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <EditUserForm onFormSubmit={() => setEditUserModalVisible(false)} />
+            <EditUserForm setEditUserModalVisible={setEditUserModalVisible}/>
             <TouchableOpacity
               onPress={() => setEditUserModalVisible(false)}
               style={styles.cancelButton}
@@ -61,9 +95,9 @@ const styles = StyleSheet.create({
     },
     editUserButton: {
       borderRadius: 20,
-      width: '70%',
+      width: '40%',
       paddingVertical: 12,
-      backgroundColor: '#87CEEB', 
+      backgroundColor: '#228B22', 
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: 20,
@@ -78,12 +112,12 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      padding: 10
     },
     modalView: {
       width: '80%',
       backgroundColor: '#F5F5DC',
       borderRadius: 20,
-      padding: 35,
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
@@ -98,18 +132,32 @@ const styles = StyleSheet.create({
       backgroundColor: '#949494', 
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 10,
+      marginBottom: 10,
       width: '50%',
       elevation: 3,
     },
-    logOutButton: {
+    deleteButton : {
         borderRadius: 20,
-        width: '70%',
+        width: '40%',
         paddingVertical: 12,
         backgroundColor: '#FF6B6B', 
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 10,
+        marginTop: 20,
         elevation: 3,
+    },
+    logOutButton: {
+      borderRadius: 20,
+      width: '40%',
+      paddingVertical: 12,
+      backgroundColor: 'grey', 
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 20,
+      elevation: 3,
+    },
+    buttons: {
+      flexDirection: "row",
+      gap: 20
     }
-  });
+  });        

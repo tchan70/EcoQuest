@@ -7,43 +7,71 @@ import {
   Text,
 } from "react-native";
 import { db } from "../../../../firebaseConfig"
-import { ref, update } from "firebase/database"
-import { UserContext } from "../../../../contexts/User"
+import { ref, onValue, set, remove } from "firebase/database"
+import { FIREBASE_AUTH } from "../../../../firebaseConfig";
+import { updateProfile } from "firebase/auth";
+import { UserContext } from "../../../../contexts/User";
+import { LoggedInUser } from "../../../../contexts/LoggedInUser";
 
-export default function EditUserForm({ onFormSubmit }) {
-  const { user } = useContext(UserContext)
-  const [name, setName] = useState("")
+export default function EditUserForm({setEditUserModalVisible}) {
 
-  const handleUpdate = () => {
-    const userRef = ref(db, `users/${user}`);
-    const updatedData = {};
-    if (name) updatedData["/name"] = name;
+  const auth = FIREBASE_AUTH;
+  const { setLoggedInUser } = useContext(LoggedInUser)
+  const { user, setUser } = useContext(UserContext)
+  const [newUsername, setNewUsername] = useState(null)
+  const [usernameIsAvailable, setUserNameIsAvailable] = useState(false)
 
-    update(userRef, updatedData)
-      .then(() => {
-        console.log("User updated successfully!");
-        if (onFormSubmit) onFormSubmit();
+  function handleOnChange(newUsername) {
+    setNewUsername(newUsername);
+    const userRef = ref(db, `users/${newUsername}/`);
+    onValue(userRef, (snapshot) => {
+      const data = snapshot.val();
+      !data ? setUserNameIsAvailable(true) : setUserNameIsAvailable(false)
+    })
+  }
+
+  function handleUsernameChange() {
+    if (usernameIsAvailable) {
+      updateProfile(auth.currentUser, {
+          displayName: newUsername
       })
-      .catch((err) => {
-        console.error("Error updating user:", err);
-      });
+      .then(() => {
+        setUserNameIsAvailable(false);
+        const userRef = ref(db, `users`);
+        set(ref(db, `users/${newUsername}/points`), user.points)
+      })
+      .then(() => {
+        remove(ref(db, `users/${user.username}`))
+      })
+      .then(() => {
+        setLoggedInUser((currentUser) => {
+          currentUser.displayName = newUsername;
+          return currentUser;
+        })
+        setUser((currentUser) => {
+          currentUser.username = newUsername;
+          return currentUser;
+        })
+        setEditUserModalVisible(false)
+      })
+      .catch(err => alert(err))
+    } 
   }
 
   return (
     <View style={styles.formContainer}>
+      <Text>Change username</Text>
       <TextInput
         style={styles.input}
-        onChangeText={setName}
-        value={name}
+        onChangeText={(text) => {handleOnChange(text)}}
+        value={newUsername}
         placeholder="New Username"
       />
+    {newUsername ? (usernameIsAvailable ? <Text>Username available</Text> : <Text>Username not available</Text>) : null}
       <TouchableOpacity
         title="Save Changes"
         style={styles.submitButton}
-        onPress={() => {
-          handleUpdate()
-          onFormSubmit()
-        }}
+        onPress={handleUsernameChange}
       >
         <Text style={styles.text}>Submit</Text>
       </TouchableOpacity>
@@ -55,29 +83,31 @@ const styles = StyleSheet.create({
   formContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    marginVertical: 40,
     backgroundColor: "#F5F5DC",
   },
   input: {
+    width: 200,
     height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    backgroundColor: "white"
   },
   submitButton: {
-      borderRadius: 20,
-      paddingVertical: 10,
-      paddingHorizontal: 20,
-      backgroundColor: '#28a428', 
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: 10,
-      elevation: 3,
-      width: "50%",
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#28a428',  
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    width: '50%',
+    elevation: 3,
   },
   text: {
     color: "#fff",
     fontWeight: 'bold',
     fontSize: 20,
-  },
+  }
 })

@@ -1,16 +1,19 @@
 import { Text, TextInput, View, StyleSheet, Button } from "react-native";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { ref, onValue, set } from 'firebase/database';
 import { db } from "../../../firebaseConfig";
 import { FIREBASE_AUTH } from "../../../firebaseConfig";
 import { updateProfile } from "firebase/auth";
-
+import { LoggedInUser } from "../../../contexts/LoggedInUser"
+import { UserContext } from "../../../contexts/User";
 
 export default function CreateUser({setIsUsernameCreated}) {
 
+    const { setLoggedInUser, loggedInUser } = useContext(LoggedInUser)
     const auth = FIREBASE_AUTH;
     const [username, setUsername] = useState(null)
     const [usernameIsAvailable, setUserNameIsAvailable] = useState(false)
+    const { user, setUser } = useContext(UserContext)
 
     function handleOnChange(username) {
         setUsername(username);
@@ -32,12 +35,20 @@ export default function CreateUser({setIsUsernameCreated}) {
                 console.log("displayName updated");
                 set(ref(db, `users/${username}/points`), 0)
             })
+            .then(() => {
+                setLoggedInUser((currentUser) => {
+                    currentUser.displayName = username;
+                    return currentUser
+                })
+            })
             .catch((error) => {
                 console.log(error);
             });
         }
     }
 
+
+    console.log(user.username)
 
     return (
         <View
