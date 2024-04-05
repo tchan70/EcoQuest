@@ -67,8 +67,10 @@ export default function Map({ hasLocationPermission, setHasLocationPermission })
     ; async () => {
       let { status } = await Location.requestForegroundPermissionsAsync()
       if (status !== 'granted') {
+        //console.log('Permission to access location was denied');
         return
       } else {
+        //console.log('Permission to access location authorized')
         setHasLocationPermission(true)
       }
     }

@@ -36,6 +36,9 @@ export default function EditUserForm({ setEditUserModalVisible }) {
       })
         .then(() => {
           setUserNameIsAvailable(false);
+          console.log(user, "this is user")
+          console.log(user.logs, "this is user.username.logs")
+          console.log(user.username.logs, "this is user.logs")
           set(ref(db, `users/${newUsername}`),{ points: user.points, logs: ""});
         })
         .then(() => {
