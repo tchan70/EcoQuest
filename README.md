@@ -20,7 +20,7 @@ Get EcoQuest up and running on your local machine for development and testing pu
  
    ```npm install```
 
-   or if you're using Yard:
+   or if you're using Yarn:
 
    ```yarn install```
 
@@ -53,6 +53,6 @@ Get EcoQuest up and running on your local machine for development and testing pu
 - Frontend: React Native for cross-platform mobile app development.
 - Maps: React-Native-Maps for integrating map functionality.
 - Navigation: React Navigation for routing and navigation.
-- Backend: Firebase Realtime Database for storing data; Firebase Authentication for user management; 
+- Backend: Firebase Realtime Database for storing data; Firebase Authentication for user management. 
 - Deployment: Expo Go for testing and deployment.
 
