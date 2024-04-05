@@ -40,6 +40,14 @@ Get EcoQuest up and running on your local machine for development and testing pu
   
    ii. Scan the QR code displayed in the terminal or Expo developer tools with the Expo Go app.
 
+## Firebase API Key
+
+In order to link your Firebase database to the app, you need to create a .env file at the root of your project, in which you declare a "REACT_APP_FIREBASE_API_KEY" variable, set to your key. 
+
+The file contents should look like so:
+
+  ```REACT_APP_FIREBASE_API_KEY: APIkey```
+
 ## Features
 
 - Log Litter: Users can log the litter they pick up, contributing to their personal and global points and location.
