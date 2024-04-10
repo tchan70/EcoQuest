@@ -4,8 +4,7 @@ import {
     ref,
     query,
     onValue,
-    orderByKey,
-    limitToLast,
+    orderByKey
 } from "firebase/database";
 import { useEffect, useState } from "react";
 

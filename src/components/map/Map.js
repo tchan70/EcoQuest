@@ -3,9 +3,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Heatmap } from 'react-native-maps'
 import * as Location from 'expo-location'
 import { useFocusEffect } from '@react-navigation/native'
-import { onValue, query, ref, set, orderByKey, limitToLast } from 'firebase/database'
+import { onValue, query, ref, orderByKey, limitToLast } from 'firebase/database'
 import { db } from '../../../firebaseConfig'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Slider } from '@miblanchard/react-native-slider'
 
 export default function Map({ hasLocationPermission, setHasLocationPermission }) {
@@ -28,20 +27,6 @@ export default function Map({ hasLocationPermission, setHasLocationPermission })
     '4 days',
     'week',
   ]
-
-  //useEffect(()=>{
-  //    onValue(queriedPoints, (snapshot) => {
-  //        const coordinates = []
-  //        snapshot.forEach((child)=>{
-  //            const timeBlockCoordinates = child.val()
-  //            timeBlockCoordinates.forEach((coordinate) => {
-  //                coordinates.push(coordinate);
-  //            });
-  //        })
-  //        setRawCoordinates(coordinates)
-  //        setHeatmapDisplay(true)
-  //    })
-  //}, [])
 
   useEffect(() => {
     setHeatmapDisplay(false)
