@@ -5,7 +5,6 @@ import * as Location from 'expo-location'
 import { useFocusEffect } from '@react-navigation/native'
 import { onValue, query, ref, set, orderByKey, limitToLast } from 'firebase/database'
 import { db } from '../../../firebaseConfig'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Slider } from '@miblanchard/react-native-slider'
 
 export default function Map({ hasLocationPermission, setHasLocationPermission }) {
