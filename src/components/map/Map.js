@@ -28,20 +28,6 @@ export default function Map({ hasLocationPermission, setHasLocationPermission })
     'week',
   ]
 
-  //useEffect(()=>{
-  //    onValue(queriedPoints, (snapshot) => {
-  //        const coordinates = []
-  //        snapshot.forEach((child)=>{
-  //            const timeBlockCoordinates = child.val()
-  //            timeBlockCoordinates.forEach((coordinate) => {
-  //                coordinates.push(coordinate);
-  //            });
-  //        })
-  //        setRawCoordinates(coordinates)
-  //        setHeatmapDisplay(true)
-  //    })
-  //}, [])
-
   useEffect(() => {
     setHeatmapDisplay(false)
     const startHours = [1, 2, 3, 4, 8, 12, 24, 48, 96, 168]
