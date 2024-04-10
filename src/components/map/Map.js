@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Heatmap } from 'react-native-maps'
 import * as Location from 'expo-location'
 import { useFocusEffect } from '@react-navigation/native'
-import { onValue, query, ref, set, orderByKey, limitToLast } from 'firebase/database'
+import { onValue, query, ref, orderByKey, limitToLast } from 'firebase/database'
 import { db } from '../../../firebaseConfig'
 import { Slider } from '@miblanchard/react-native-slider'
 
